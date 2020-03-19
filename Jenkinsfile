@@ -15,9 +15,7 @@ pipeline {
     stages {
         stage('Build & Test') {
             steps {
-                dir('DiCoScanner') {
-                    sh "./mvnw clean install"
-                }
+                sh "./mvnw clean install"
             }
             post {
                 success {
