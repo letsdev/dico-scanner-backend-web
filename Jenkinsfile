@@ -5,6 +5,7 @@ pipeline {
         dockerfile {
             label 'docker'
             reuseNode true
+            args "--network=host -v /var/lib/jenkins/.m2:/home/jenkins/.m2"
         }
     }
     options {
@@ -15,9 +16,7 @@ pipeline {
     stages {
         stage('Build & Test') {
             steps {
-                dir('DiCoScanner') {
-                    sh "./mvnw clean install"
-                }
+                sh "mvn clean install"
             }
             post {
                 success {
