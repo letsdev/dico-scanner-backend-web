@@ -5,7 +5,7 @@ pipeline {
         dockerfile {
             label 'docker'
             reuseNode true
-            args "--network=host -v ${env.HOME}/.m2:/home/jenkins/.m2"
+            args "--network=host -v /var/lib/jenkins/.m2:/home/jenkins/.m2"
         }
     }
     options {
