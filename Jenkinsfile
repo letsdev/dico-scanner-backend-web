@@ -15,7 +15,7 @@ pipeline {
     stages {
         stage('Build & Test') {
             steps {
-                sh "./mvnw clean install"
+                sh "mvn clean install"
             }
             post {
                 success {
