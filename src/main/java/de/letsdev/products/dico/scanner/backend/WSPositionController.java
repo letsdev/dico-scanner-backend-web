@@ -17,10 +17,10 @@ public class WSPositionController {
             method = RequestMethod.POST,
             produces = "application/json"
     )
-    public ResponseEntity<APIResponse> position(@PathVariable("device_id") String device_id, @RequestBody Position position) {
+    public ResponseEntity<Object> position(@PathVariable("device_id") String device_id, @RequestBody Position position) {
         // business logic
         locationService.savePosition(device_id, position);
-        return new ResponseEntity<>(new APIResponse("success", false), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
     }
 
 }
