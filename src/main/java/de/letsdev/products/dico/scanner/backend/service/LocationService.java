@@ -1,5 +1,6 @@
 package de.letsdev.products.dico.scanner.backend.service;
 
+import de.letsdev.products.dico.scanner.backend.Position;
 import de.letsdev.products.dico.scanner.backend.db.Location;
 import de.letsdev.products.dico.scanner.backend.db.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,7 @@ public class LocationService {
     @Autowired
     private LocationRepository locationRepository;
 
-    public void savePosition(Timestamp timestamp, Location){
-
-
+    public void savePosition(String deviceID, Position position) {
     }
 
 }
