@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 
 @Service
 public class LocationService {
@@ -15,6 +16,10 @@ public class LocationService {
     private LocationRepository locationRepository;
 
     public void savePosition(String deviceID, Position position) {
+        Instant instant = Instant.parse(position.getTimestamp());
+        Timestamp timestamp = Timestamp.from(instant);
+
+        // ToDo: save in locationRepository
     }
 
 }
