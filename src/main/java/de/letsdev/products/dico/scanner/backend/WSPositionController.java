@@ -36,7 +36,6 @@ public class WSPositionController {
 
         // business logic
         Location location = locationService.savePosition(device, position);
-        DistanceHelper.findLocations(position.getLat(), 10.0, position.getLon(), 10.0);
 
         //TODO search area
         if(location != null) {

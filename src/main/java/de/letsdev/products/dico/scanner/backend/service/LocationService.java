@@ -62,7 +62,7 @@ public class LocationService {
     @Async
     public CompletableFuture<List<Location>> findNearlyLocations(Location location) {
 
-        String maxDaysConfig = environment.getProperty("coscan.search.maximum.days");
+        String maxDaysConfig = environment.getProperty("coscan.search.maximum.days", "8");
         int maxDays = Integer.parseInt(maxDaysConfig);
 
         Calendar cal = Calendar.getInstance();
