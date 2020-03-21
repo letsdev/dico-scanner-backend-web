@@ -7,8 +7,6 @@ import de.letsdev.products.dico.scanner.backend.db.LocationRepository;
 import de.letsdev.products.dico.scanner.backend.helper.DistanceHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -63,6 +61,7 @@ public class LocationService {
 
     @Async
     public CompletableFuture<List<Location>> findNearlyLocations(Location location) {
+
         String maxDaysConfig = environment.getProperty("coscan.search.maximum.days");
         int maxDays = Integer.parseInt(maxDaysConfig);
 
@@ -71,12 +70,18 @@ public class LocationService {
         cal.add(Calendar.DAY_OF_WEEK, -maxDays);
         Timestamp referenceTimestamp = new Timestamp(cal.getTime().getTime());
 
+        //TODO fetch only positive co
         List<Location> locations = locationRepository.findAllByTimestampAfter(referenceTimestamp);
 
         double latFrom = location.getLat();
         double lonFrom = location.getLon();
 
-        DistanceHelper.findLocations();
+        String maxMetersConfig = environment.getProperty("coscan.search.area.alert.max.distance.meters");
+        int maxMeters = Integer.parseInt(maxMetersConfig);
+
+        for (Location loc : locations) {
+            DistanceHelper.isDistanceBiggerThanReference(latFrom, loc.getLat(), lonFrom, loc.getLon(), maxMeters);
+        }
 
         return null;
     }
