@@ -37,6 +37,7 @@ public class TestStateService {
 
         for (TestState testState : testStates) {
             Test test = new Test(
+                    testState.getId(),
                     testState.getTimestamp().toInstant().toString(),
                     testState.getState(),
                     testState.getResult()

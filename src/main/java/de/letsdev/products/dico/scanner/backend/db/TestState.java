@@ -18,6 +18,14 @@ public class TestState {
     @ManyToOne
     private Device device;
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public Timestamp getTimestamp() {
         return timestamp;
     }

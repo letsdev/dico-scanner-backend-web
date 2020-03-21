@@ -2,14 +2,24 @@ package de.letsdev.products.dico.scanner.backend;
 
 public class Test {
 
+    private long id;
     private String timestamp;
     private String state;
     private String result;
 
-    public Test(String timestamp, String state, String result) {
+    public Test(long id, String timestamp, String state, String result) {
+        this.id = id;
         this.timestamp = timestamp;
         this.state = state;
         this.result = result;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getTimestamp() {
