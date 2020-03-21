@@ -4,4 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface LocationRepository extends JpaRepository<Location, Long> {}
+public interface DeviceRepository extends JpaRepository<Device, Long> {
+
+    Device findByUuid(String uuid);
+}
