@@ -4,7 +4,7 @@ import org.apache.catalina.startup.ClassLoaderFactory;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class LocationRepository {
+public class  LocationRepository {
 
 
 
