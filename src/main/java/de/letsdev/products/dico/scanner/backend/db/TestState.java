@@ -13,8 +13,6 @@ public class TestState {
 
     private State state;
 
-    private String result;
-
     @ManyToOne
     private Device device;
 
@@ -40,14 +38,6 @@ public class TestState {
 
     public void setState(State state) {
         this.state = state;
-    }
-
-    public String getResult() {
-        return result;
-    }
-
-    public void setResult(String result) {
-        this.result = result;
     }
 
     public Device getDevice() {

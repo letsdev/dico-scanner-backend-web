@@ -39,8 +39,7 @@ public class TestStateService {
             Test test = new Test(
                     testState.getId(),
                     testState.getTimestamp().toInstant().toString(),
-                    testState.getState(),
-                    testState.getResult()
+                    testState.getState()
             );
             tests.add(test);
         }

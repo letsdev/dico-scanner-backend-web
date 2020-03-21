@@ -9,13 +9,11 @@ public class Test {
     private long id;
     private String timestamp;
     private TestState.State state;
-    private String result;
 
-    public Test(long id, String timestamp, TestState.State state, String result) {
+    public Test(long id, String timestamp, TestState.State state) {
         this.id = id;
         this.timestamp = timestamp;
         this.state = state;
-        this.result = result;
     }
 
     public long getId() {
@@ -42,21 +40,12 @@ public class Test {
         this.state = state;
     }
 
-    public String getResult() {
-        return result;
-    }
-
-    public void setResult(String result) {
-        this.result = result;
-    }
-
     @Override
     public String toString() {
         return "Test{" +
                 "id=" + id +
                 ", timestamp='" + timestamp + '\'' +
                 ", state='" + state + '\'' +
-                ", result='" + result + '\'' +
                 '}';
     }
 
@@ -67,12 +56,11 @@ public class Test {
         Test test = (Test) o;
         return id == test.id &&
                 Objects.equals(timestamp, test.timestamp) &&
-                Objects.equals(state, test.state) &&
-                Objects.equals(result, test.result);
+                Objects.equals(state, test.state);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, timestamp, state, result);
+        return Objects.hash(id, timestamp, state);
     }
 }
