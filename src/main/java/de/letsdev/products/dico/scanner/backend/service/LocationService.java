@@ -36,7 +36,7 @@ public class LocationService {
     public List<Position> findAllByDeviceUuid(String uuid) {
 
         List<Location> locations = locationRepository.findAllByDeviceUuid(uuid);
-        List<Position> positions = new ArrayList<Position>();
+        List<Position> positions = new ArrayList<Position>(locations.size());
 
         for (Location location : locations) {
             Position position = new Position();
