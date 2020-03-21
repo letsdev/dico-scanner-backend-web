@@ -38,10 +38,10 @@ public class WSPositionController {
         return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/show")
+    @GetMapping("/show/{deviceId}")
     @ResponseBody
-    public List<Position> showLocation(@RequestHeader(X_ATT_DEVICE_HEADER) String deviceIdHeader) {
-        return locationService.findAllByDeviceUuid(deviceIdHeader);
+    public List<Position> showLocation(@PathVariable("deviceId") String deviceId) {
+        return locationService.findAllByDeviceUuid(deviceId);
     }
 
 }
