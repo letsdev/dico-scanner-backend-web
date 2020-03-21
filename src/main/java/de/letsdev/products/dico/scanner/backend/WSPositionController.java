@@ -36,8 +36,7 @@ public class WSPositionController {
             method = RequestMethod.POST,
             produces = "application/json"
     )
-    public ResponseEntity<Object> position(@RequestHeader(X_ATT_DEVICE_HEADER) String deviceIdHeader, @RequestBody Position position) {
-
+    public ResponseEntity<Object> position(@RequestHeader(WSHelper.X_ATT_DEVICE_HEADER) String deviceIdHeader, @RequestBody Position position) {
         Device device = deviceService.findByDeviceUuid(deviceIdHeader);
         if (device == null) {
             device = deviceService.createDevice(deviceIdHeader);
@@ -49,7 +48,7 @@ public class WSPositionController {
         if (location != null) {
             log.info("location successfully saved for device: " + device.getId());
             locationService.findNearlyLocations(location);
-            return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(true, HttpStatus.CREATED);
         }
 
         return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
