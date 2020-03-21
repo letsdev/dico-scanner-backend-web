@@ -1,7 +1,6 @@
 package de.letsdev.products.dico.scanner.backend;
 
 import de.letsdev.products.dico.scanner.backend.db.Device;
-import de.letsdev.products.dico.scanner.backend.db.Location;
 import de.letsdev.products.dico.scanner.backend.service.DeviceService;
 import de.letsdev.products.dico.scanner.backend.service.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +20,12 @@ public class WSPositionController {
     @Autowired
     private DeviceService deviceService;
 
-    private static final String X_ATT_DEVICE_HEADER = "X-ATT-DeviceId";
 
     @RequestMapping(
             method = RequestMethod.POST,
             produces = "application/json"
     )
-    public ResponseEntity<Object> position(@RequestHeader(X_ATT_DEVICE_HEADER) String deviceIdHeader, @RequestBody Position position) {
+    public ResponseEntity<Object> position(@RequestHeader(WSHelper.X_ATT_DEVICE_HEADER) String deviceIdHeader, @RequestBody Position position) {
         Device device = deviceService.findByDeviceUuid(deviceIdHeader);
         if(device == null) {
             device = deviceService.createDevice(deviceIdHeader);
