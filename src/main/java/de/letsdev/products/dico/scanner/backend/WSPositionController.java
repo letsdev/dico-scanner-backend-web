@@ -40,7 +40,7 @@ public class WSPositionController {
 
     @GetMapping("/show")
     @ResponseBody
-    public List<Location> showLocation(@RequestHeader(X_ATT_DEVICE_HEADER) String deviceIdHeader) {
+    public List<Position> showLocation(@RequestHeader(X_ATT_DEVICE_HEADER) String deviceIdHeader) {
         return locationService.findAllByDeviceUuid(deviceIdHeader);
     }
 
