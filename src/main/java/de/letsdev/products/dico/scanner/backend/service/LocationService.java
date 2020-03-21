@@ -101,7 +101,7 @@ public class LocationService {
         cal.add(Calendar.MINUTE, 2 * searchBetweenTime);
         Timestamp referenceTimestampAfter = new Timestamp(cal.getTime().getTime());
 
-        List<Location> locations = locationRepository.findAllByTestResultPositiveAndTimestampBetweenAnd(referenceTimestampBefore, referenceTimestampAfter);
+        List<Location> locations = locationRepository.findAllByTestResultPositiveAndTimestampBetweenAnd(referenceTimestampBefore, referenceTimestampAfter, location.getDevice().getId());
 
         double latFrom = location.getLat();
         double lonFrom = location.getLon();
