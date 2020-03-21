@@ -2,7 +2,6 @@ package de.letsdev.products.dico.scanner.backend;
 
 import de.letsdev.products.dico.scanner.backend.db.Device;
 import de.letsdev.products.dico.scanner.backend.db.Location;
-import de.letsdev.products.dico.scanner.backend.helper.DistanceHelper;
 import de.letsdev.products.dico.scanner.backend.service.DeviceService;
 import de.letsdev.products.dico.scanner.backend.service.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
