@@ -39,7 +39,7 @@ public class SymptomsScheduler {
 
         for(Device device : devices) {
             try {
-                pushService.sendPushToDevice(title, message, device.getUuid());
+                pushService.sendPushToDevice(title, message, device.getUuid(), "dailySymptomsReminder");
             } catch (PushServiceException e) {
                 log.error("error while sending push message for device " + device.getUuid());
                 e.printStackTrace();
