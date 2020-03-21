@@ -38,10 +38,20 @@ public class LocationService {
 
     public List<Position> findAllByDeviceUuid(String uuid) {
 
-        List<Location> locations = locationRepository.findAllByDeviceUuid(uuid);
-        List<Position> positions = new ArrayList<Position>();
+        return convertList(locationRepository.findAllByDeviceUuid(uuid));
 
-        for (Location location : locations) {
+    }
+
+    public List<Position> findAll() {
+
+        return convertList(locationRepository.findAll());
+
+    }
+
+    private List<Position> convertList(List<Location> list) {
+        List<Position> positions = new ArrayList<Position>(list.size());
+
+        for (Location location : list) {
             Position position = new Position();
             position.setLon(location.getLon());
             position.setLat(location.getLat());
@@ -52,4 +62,5 @@ public class LocationService {
 
         return positions;
     }
+
 }

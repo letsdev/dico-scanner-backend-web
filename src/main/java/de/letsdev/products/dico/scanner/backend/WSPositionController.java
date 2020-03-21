@@ -39,6 +39,10 @@ public class WSPositionController {
     @GetMapping("/show/{deviceId}")
     @ResponseBody
     public List<Position> showLocation(@PathVariable("deviceId") String deviceId) {
+        if (deviceId.equals("all")) {
+            return locationService.findAll();
+        }
+
         return locationService.findAllByDeviceUuid(deviceId);
     }
 
