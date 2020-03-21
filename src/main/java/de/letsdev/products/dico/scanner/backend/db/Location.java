@@ -23,4 +23,6 @@ public class Location {
 
     float accuracy;
 
+    Device device;
+
 }
