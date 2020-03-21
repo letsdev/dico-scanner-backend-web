@@ -17,15 +17,17 @@ public class WSPositionController {
     @Autowired
     private DeviceService deviceService;
 
+    private static final String X_ATT_DEVICE_HEADER = "X-ATT-DeviceId";
+
     @RequestMapping(
-            value = "/position/{device_id}",
+            value = "/position",
             method = RequestMethod.POST,
             produces = "application/json"
     )
-    public ResponseEntity<Object> position(@PathVariable("device_id") String device_id, @RequestBody Position position) {
-        Device device = deviceService.findByDeviceUuid(device_id);
+    public ResponseEntity<Object> position(@RequestHeader(X_ATT_DEVICE_HEADER) String deviceIdHeader, @RequestBody Position position) {
+        Device device = deviceService.findByDeviceUuid(deviceIdHeader);
         if(device == null) {
-            device = deviceService.createDevice(device_id);
+            device = deviceService.createDevice(deviceIdHeader);
         }
 
         // business logic
