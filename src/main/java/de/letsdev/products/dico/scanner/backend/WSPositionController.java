@@ -29,7 +29,7 @@ public class WSPositionController {
         }
 
         // business logic
-        locationService.savePosition(device_id, position);
+        locationService.savePosition(device, position);
         return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
     }
 
