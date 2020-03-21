@@ -4,6 +4,7 @@ import de.letsdev.products.dico.scanner.backend.Test;
 import de.letsdev.products.dico.scanner.backend.db.Device;
 import de.letsdev.products.dico.scanner.backend.db.TestState;
 import de.letsdev.products.dico.scanner.backend.db.TestStateRepository;
+import de.letsdev.products.dico.scanner.backend.helper.TimestampConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,6 +46,16 @@ public class TestStateService {
         }
 
         return tests;
+    }
+
+    public void updateTest(Test test, Device device) {
+        TestState testState = new TestState();
+        testState.setTimestamp(TimestampConverter.convertStringToTimestamp(test.getTimestamp()));
+        testState.setDevice(device);
+        testState.setState(test.getResult());
+        testState.setId(test.getId());
+
+        testStateRepository.save(testState);
     }
 
 }

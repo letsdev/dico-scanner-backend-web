@@ -8,12 +8,12 @@ public class Test {
 
     private long id;
     private String timestamp;
-    private TestState.State state;
+    private TestState.State result;
 
     public Test(long id, String timestamp, TestState.State state) {
         this.id = id;
         this.timestamp = timestamp;
-        this.state = state;
+        this.result = state;
     }
 
     public long getId() {
@@ -32,12 +32,12 @@ public class Test {
         this.timestamp = timestamp;
     }
 
-    public TestState.State getState() {
-        return state;
+    public TestState.State getResult() {
+        return result;
     }
 
-    public void setState(TestState.State state) {
-        this.state = state;
+    public void setState(TestState.State result) {
+        this.result = result;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class Test {
         return "Test{" +
                 "id=" + id +
                 ", timestamp='" + timestamp + '\'' +
-                ", state='" + state + '\'' +
+                ", result='" + result + '\'' +
                 '}';
     }
 
@@ -56,11 +56,11 @@ public class Test {
         Test test = (Test) o;
         return id == test.id &&
                 Objects.equals(timestamp, test.timestamp) &&
-                Objects.equals(state, test.state);
+                Objects.equals(result, test.result);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, timestamp, state);
+        return Objects.hash(id, timestamp, result);
     }
 }
