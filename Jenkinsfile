@@ -36,7 +36,7 @@ pipeline {
         }
         stage('Deploy') {
             when {
-                branch 'deploy'
+                branch 'master'
             }
             environment {
                 IMAGE_NAME = 'letsdev/dico'
