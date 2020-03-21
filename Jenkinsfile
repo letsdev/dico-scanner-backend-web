@@ -37,19 +37,14 @@ pipeline {
             }
             environment {
                 IMAGE_NAME = 'letsdev/dico'
-                IMAGE_VERSION = ''
+                IMAGE_VERSION = readMavenPom().getVersion()
                 TARGET_HOST = '172.27.27.12'
             }
             steps {
                 script {
-                    sh "cp target/*.jar container/"
-
-                    sh "pwd"
-                    sh "ls -al"
-                    def pom = readMavenPom()
-                    echo "Pom: ${pom}"
-                    env.IMAGE_VERSION = pom.getVersion()
                     echo "Version: ${env.IMAGE_VERSION}"
+
+                    sh "cp target/*.jar container/"
 
                     dir('container') {
                         // build image
