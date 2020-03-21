@@ -4,7 +4,7 @@ services:
     image: 'letsdev/dico:_VERSION_'
     container_name: dico
     ports:
-      - 8080:8080
+      - 8008:8080
     restart: unless-stopped
     extra_hosts:
       - "localhost:172.27.27.12"
