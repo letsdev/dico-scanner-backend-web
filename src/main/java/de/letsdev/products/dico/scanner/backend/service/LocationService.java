@@ -27,6 +27,7 @@ public class LocationService {
     private Environment environment;
 
     private static final String DEFAULT_VALUE_MAX_DAYS = "14";
+    private static final String DEFAULT_VALUE_BETWEEN_TIME = "30";
     private static final String DEFAULT_VALUE_MAX_DISTANCE = "200";
 
     public Location savePosition(Device device, Position position) {
@@ -72,16 +73,27 @@ public class LocationService {
     @Async
     public CompletableFuture<List<Location>> findNearlyLocations(Location location) {
 
-        String maxDaysConfig = environment.getProperty("coscan.search.maximum.days", DEFAULT_VALUE_MAX_DAYS);
-        int maxDays = Integer.parseInt(maxDaysConfig);
+//        String maxDaysConfig = environment.getProperty("coscan.search.maximum.days", DEFAULT_VALUE_MAX_DAYS);
+//        int maxDays = Integer.parseInt(maxDaysConfig);
+//
+//        Calendar cal = Calendar.getInstance();
+//        cal.setTime(location.getTimestamp());
+//        cal.add(Calendar.DAY_OF_WEEK, -maxDays);
+//        Timestamp referenceTimestamp = new Timestamp(cal.getTime().getTime());
+
+
+        String searchBetweenTimeConfig = environment.getProperty("coscan.search.between.minutes", DEFAULT_VALUE_BETWEEN_TIME);
+        int searchBetweenTime = Integer.parseInt(searchBetweenTimeConfig);
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(location.getTimestamp());
-        cal.add(Calendar.DAY_OF_WEEK, -maxDays);
-        Timestamp referenceTimestamp = new Timestamp(cal.getTime().getTime());
+        cal.add(Calendar.MINUTE, -searchBetweenTime);
+        Timestamp referenceTimestampBefore = new Timestamp(cal.getTime().getTime());
+        cal.add(Calendar.MINUTE, 2 * searchBetweenTime);
+        Timestamp referenceTimestampAfter = new Timestamp(cal.getTime().getTime());
 
         //TODO fetch only positive co
-        List<Location> locations = locationRepository.findAllByTimestampAfter(referenceTimestamp);
+        List<Location> locations = locationRepository.findAllByTestResultPositiveAndTimestampBetweenAnd(referenceTimestampBefore, referenceTimestampAfter);
 
         double latFrom = location.getLat();
         double lonFrom = location.getLon();
