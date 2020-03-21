@@ -37,7 +37,12 @@
 
     let markers = [];
     function search() {
-        $.ajax('./position/show/' + $('#search').val(), {
+        let deviceId = $('#search').val();
+        if (deviceId === '') {
+            deviceId = 'all';
+        }
+
+        $.ajax('./position/show/' + deviceId, {
             success: function(result) {
                 console.log(result);
 
@@ -63,6 +68,8 @@
             }
         });
     }
+
+    search();
 </script>
 
 </body>
