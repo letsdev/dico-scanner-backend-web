@@ -15,6 +15,8 @@ pipeline {
                 dockerfile {
                     label 'docker'
                     reuseNode true
+                    //noinspection GroovyAssignabilityCheck
+                    args "--network=host -v /var/lib/jenkins/.m2:/home/jenkins/.m2"
                 }
             }
             steps {
