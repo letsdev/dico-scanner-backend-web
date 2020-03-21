@@ -64,7 +64,7 @@ public class WSTestController {
         }
 
         testStateService.updateTest(request, device);
-        return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(true, HttpStatus.CREATED);
     }
 
 }
