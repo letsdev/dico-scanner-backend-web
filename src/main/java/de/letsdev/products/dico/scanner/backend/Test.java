@@ -1,5 +1,7 @@
 package de.letsdev.products.dico.scanner.backend;
 
+import java.util.Objects;
+
 public class Test {
 
     private long id;
@@ -44,5 +46,31 @@ public class Test {
 
     public void setResult(String result) {
         this.result = result;
+    }
+
+    @Override
+    public String toString() {
+        return "Test{" +
+                "id=" + id +
+                ", timestamp='" + timestamp + '\'' +
+                ", state='" + state + '\'' +
+                ", result='" + result + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Test test = (Test) o;
+        return id == test.id &&
+                Objects.equals(timestamp, test.timestamp) &&
+                Objects.equals(state, test.state) &&
+                Objects.equals(result, test.result);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, timestamp, state, result);
     }
 }
