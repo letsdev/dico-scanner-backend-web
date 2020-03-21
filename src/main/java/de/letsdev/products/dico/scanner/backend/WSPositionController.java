@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/position")
 public class WSPositionController {
 
     @Autowired
@@ -33,6 +34,11 @@ public class WSPositionController {
         // business logic
         locationService.savePosition(device, position);
         return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/show")
+    public showLocation(@RequestHeader(X_ATT_DEVICE_HEADER) String deviceIdHeader) {
+        locationService.
     }
 
 }
