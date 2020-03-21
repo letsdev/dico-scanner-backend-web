@@ -33,7 +33,7 @@ public class WSPositionController {
 
         // business logic
         locationService.savePosition(device, position);
-        return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(true, HttpStatus.CREATED);
     }
 
     @GetMapping("/show/{deviceId}")

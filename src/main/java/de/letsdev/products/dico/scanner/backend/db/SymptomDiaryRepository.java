@@ -6,9 +6,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface SymptomRepository extends JpaRepository<Symptom, Long> {
+public interface SymptomDiaryRepository extends JpaRepository<SymptomDiary, Long> {
 
-    Symptom findById(int id);
+    List<SymptomDiary> findAll();
 
-    List<Symptom> findAll();
+    SymptomDiary save(SymptomDiary symptomDiary);
 }
