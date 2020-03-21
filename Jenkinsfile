@@ -44,7 +44,10 @@ pipeline {
                 script {
                     sh "cp target/*.jar container/"
 
-                    def pom = readMavenPom(file: 'pom.xml')
+                    sh "pwd"
+                    sh "ls -al"
+                    def pom = readMavenPom()
+                    echo "Pom: ${pom}"
                     env.IMAGE_VERSION = pom.getVersion()
                     echo "Version: ${env.IMAGE_VERSION}"
 
