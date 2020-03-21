@@ -62,7 +62,7 @@ public class WSPositionController {
         return new ResponseEntity<>(true, HttpStatus.CREATED);
     }
 
-    @GetMapping("/test/list")
+    @GetMapping("/test/list/{deviceId}")
     @ResponseBody
     public List<Test> listTests(@PathVariable("deviceId") String deviceId) {
         return testStateService.findAllByDeviceUuid(deviceId);
