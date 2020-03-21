@@ -2,8 +2,11 @@ package de.letsdev.products.dico.scanner.backend;
 
 import de.letsdev.products.dico.scanner.backend.db.Device;
 import de.letsdev.products.dico.scanner.backend.db.Location;
+import de.letsdev.products.dico.scanner.backend.push.PushService;
 import de.letsdev.products.dico.scanner.backend.service.DeviceService;
 import de.letsdev.products.dico.scanner.backend.service.LocationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +25,7 @@ public class WSPositionController {
     private DeviceService deviceService;
 
     private static final String X_ATT_DEVICE_HEADER = "X-ATT-DeviceId";
+    private Logger log = LoggerFactory.getLogger(PushService.class);
 
     @RequestMapping(
             method = RequestMethod.POST,
@@ -39,6 +43,7 @@ public class WSPositionController {
         //TODO search area
         if(location != null) {
             locationService.findNearlyLocations(location);
+            log.info("location successfully saved for device: " + device.getId());
             return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
         }
 

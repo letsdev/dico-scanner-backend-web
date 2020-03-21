@@ -26,6 +26,9 @@ public class LocationService {
     @Autowired
     private Environment environment;
 
+    private static final String DEFAULT_VALUE_MAX_DAYS = "14";
+    private static final String DEFAULT_VALUE_MAX_DISTANCE = "200";
+
     public Location savePosition(Device device, Position position) {
 
         Instant instant = Instant.parse(position.getTimestamp());
@@ -62,7 +65,7 @@ public class LocationService {
     @Async
     public CompletableFuture<List<Location>> findNearlyLocations(Location location) {
 
-        String maxDaysConfig = environment.getProperty("coscan.search.maximum.days", "8");
+        String maxDaysConfig = environment.getProperty("coscan.search.maximum.days", DEFAULT_VALUE_MAX_DAYS);
         int maxDays = Integer.parseInt(maxDaysConfig);
 
         Calendar cal = Calendar.getInstance();
@@ -76,7 +79,7 @@ public class LocationService {
         double latFrom = location.getLat();
         double lonFrom = location.getLon();
 
-        String maxMetersConfig = environment.getProperty("coscan.search.area.alert.max.distance.meters");
+        String maxMetersConfig = environment.getProperty("coscan.search.area.alert.max.distance.meters", DEFAULT_VALUE_MAX_DISTANCE);
         int maxMeters = Integer.parseInt(maxMetersConfig);
 
         for (Location loc : locations) {
