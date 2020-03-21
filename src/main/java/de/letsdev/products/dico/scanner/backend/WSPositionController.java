@@ -21,7 +21,6 @@ public class WSPositionController {
     private static final String X_ATT_DEVICE_HEADER = "X-ATT-DeviceId";
 
     @RequestMapping(
-            value = "/position",
             method = RequestMethod.POST,
             produces = "application/json"
     )

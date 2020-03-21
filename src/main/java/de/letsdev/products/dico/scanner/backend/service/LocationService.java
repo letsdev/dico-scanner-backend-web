@@ -30,7 +30,7 @@ public class LocationService {
         locationRepository.save(location);
     }
 
-    public List<Position> findAllByDeviceUuid(String uuid) {
+    public List<Location> findAllByDeviceUuid(String uuid) {
         return locationRepository.findAllByDeviceUuid(uuid);
     }
 }
