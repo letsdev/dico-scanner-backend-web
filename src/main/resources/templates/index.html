@@ -37,7 +37,7 @@
 
     let markers = [];
     function search() {
-        $.ajax('/position/show/' + $('#search').val(), {
+        $.ajax('./position/show/' + $('#search').val(), {
             success: function(result) {
                 console.log(result);
 
