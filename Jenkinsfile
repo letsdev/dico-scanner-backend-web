@@ -20,7 +20,7 @@ pipeline {
                 }
             }
             steps {
-                sh "./mvnw clean install"
+                sh "./mvn clean install"
             }
             post {
                 success {
