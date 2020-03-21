@@ -112,11 +112,11 @@ public class LocationService {
         for (Location loc : locations) {
             if(DistanceHelper.isDistanceSmallerThanReference(latFrom, loc.getLat(), lonFrom, loc.getLon(), maxMeters))  {
                 log.info("found positive test near location " + location.getId());
-                String title = environment.getProperty("push.message.title", "Positiver Test in der Nähe");
-                String message = environment.getProperty("push.message.message", "In Ihrer Nähe gab es einen positiven Test");
+                String title = environment.getProperty("push.message.title", "Positiver Covid-19 Test in der Nähe");
+                String message = environment.getProperty("push.message.message", "In Ihrer Nähe gab es einen positiv getesteten Covid-19 Fall, lassen Sie sich testen.");
                 message = message.replace(PLACEHOLDER_TEXT, location.getTimestamp().toString());
                 try {
-                    pushService.sendPushToDevice(title, message, location.getDevice().getUuid());
+                    pushService.sendPushToDevice(title, message, location.getDevice().getUuid(), "testDetected");
                     break;
                 } catch (PushServiceException e) {
                     log.error("error while sending push message");

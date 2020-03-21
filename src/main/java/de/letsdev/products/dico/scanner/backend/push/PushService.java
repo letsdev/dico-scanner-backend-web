@@ -19,6 +19,10 @@ public class PushService {
     Logger log = LoggerFactory.getLogger(PushService.class);
 
     public void sendPushToDevice(String title, String message, String deviceId) throws PushServiceException {
+        this.sendPushToDevice(title, message, deviceId, null);
+    }
+
+    public void sendPushToDevice(String title, String message, String deviceId, String action) throws PushServiceException {
 
         String url = hostUrl + endpoint;
 
@@ -32,6 +36,10 @@ public class PushService {
         pushRequestDto.setTitle(title);
         pushRequestDto.setMessage(message);
         pushRequestDto.setId(UUID.randomUUID().toString());
+
+        if(action != null){
+            pushRequestDto.setPushData("{ \"action\": \"" + action + "\"}");
+        }
 
         HttpEntity<PushRequestDto> request = new HttpEntity<>(pushRequestDto, headers);
 
