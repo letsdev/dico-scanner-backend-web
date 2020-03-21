@@ -4,17 +4,10 @@ import de.letsdev.products.dico.scanner.backend.Position;
 import de.letsdev.products.dico.scanner.backend.db.Device;
 import de.letsdev.products.dico.scanner.backend.db.Location;
 import de.letsdev.products.dico.scanner.backend.db.LocationRepository;
-import org.hibernate.event.spi.PostCollectionRecreateEvent;
+import de.letsdev.products.dico.scanner.backend.helper.TimestampConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,16 +17,10 @@ public class LocationService {
     @Autowired
     private LocationRepository locationRepository;
 
-    private static final String DEFAULT_TIMESTAMP_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
-
     public void savePosition(Device device, Position position) {
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DEFAULT_TIMESTAMP_FORMAT);
-        LocalDateTime localDateTime = LocalDateTime.parse(position.getTimestamp(), formatter);
-        Timestamp timestamp = Timestamp.valueOf(localDateTime);
-
         Location location = new Location();
-        location.setTimestamp(timestamp);
+        location.setTimestamp(TimestampConverter.convertStringToTimestamp(position.getTimestamp()));
         location.setLon(position.getLon());
         location.setLat(position.getLat());
         location.setAccuracy(position.getAccuracy());
