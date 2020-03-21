@@ -1,0 +1,13 @@
+version: "3.7"
+services:
+  dico:
+    image: 'letsdev/dico:_VERSION_'
+    container_name: dico
+    ports:
+      - 8080:8080
+    restart: unless-stopped
+    extra_hosts:
+      - "localhost:172.27.27.12"
+    hostname: lx-qa-1
+    volumes:
+      - /media/data/dico-home:/root/project-home
