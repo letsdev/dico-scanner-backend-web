@@ -37,8 +37,9 @@ public class WSPositionController {
     }
 
     @GetMapping("/show")
-    public showLocation(@RequestHeader(X_ATT_DEVICE_HEADER) String deviceIdHeader) {
-        locationService.
+    public ResponseEntity<Object> showLocation(@RequestHeader(X_ATT_DEVICE_HEADER) String deviceIdHeader) {
+        locationService.findAllByDeviceUuid(deviceIdHeader);
+        return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
     }
 
 }

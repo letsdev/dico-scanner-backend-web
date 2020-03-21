@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.List;
 
 @Service
 public class LocationService {
@@ -27,5 +28,9 @@ public class LocationService {
         location.setAccuracy(position.getAccuracy());
         location.setDevice(device);
         locationRepository.save(location);
+    }
+
+    public List<Position> findAllByDeviceUuid(String uuid) {
+        return locationRepository.findAllByDeviceUuid(uuid);
     }
 }
