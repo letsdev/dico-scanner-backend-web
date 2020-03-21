@@ -24,7 +24,7 @@ public class TestStateService {
         Timestamp timestamp = Timestamp.from(instant);
 
         TestState testState = new TestState();
-        testState.setState("initialized");
+        testState.setState(TestState.State.INITIALIZED);
         testState.setTimestamp(timestamp);
 
         testStateRepository.save(testState);

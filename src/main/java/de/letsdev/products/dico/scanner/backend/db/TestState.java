@@ -11,7 +11,7 @@ public class TestState {
 
     private Timestamp timestamp;
 
-    private String state;
+    private State state;
 
     private String result;
 
@@ -34,11 +34,11 @@ public class TestState {
         this.timestamp = timestamp;
     }
 
-    public String getState() {
+    public State getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(State state) {
         this.state = state;
     }
 
@@ -56,5 +56,17 @@ public class TestState {
 
     public void setDevice(Device device) {
         this.device = device;
+    }
+
+    public static enum State {
+        INITIALIZED("initialized"),
+        IS_POSITIVE("positive"),
+        IS_NEGATIVE("negative");
+
+        final String value;
+
+        State(String value) {
+            this.value = value;
+        }
     }
 }

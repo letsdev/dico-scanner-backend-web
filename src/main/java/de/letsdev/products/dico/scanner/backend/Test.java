@@ -1,15 +1,17 @@
 package de.letsdev.products.dico.scanner.backend;
 
+import de.letsdev.products.dico.scanner.backend.db.TestState;
+
 import java.util.Objects;
 
 public class Test {
 
     private long id;
     private String timestamp;
-    private String state;
+    private TestState.State state;
     private String result;
 
-    public Test(long id, String timestamp, String state, String result) {
+    public Test(long id, String timestamp, TestState.State state, String result) {
         this.id = id;
         this.timestamp = timestamp;
         this.state = state;
@@ -32,11 +34,11 @@ public class Test {
         this.timestamp = timestamp;
     }
 
-    public String getState() {
+    public TestState.State getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(TestState.State state) {
         this.state = state;
     }
 
