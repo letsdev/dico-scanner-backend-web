@@ -8,9 +8,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {PushService.class})
+@ContextConfiguration(classes = {TestConfig.class, PushService.class},loader = AnnotationConfigContextLoader.class)
 public class PushTest {
 
     @Autowired
