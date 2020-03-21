@@ -5,13 +5,13 @@ import de.letsdev.products.dico.scanner.backend.db.Device;
 import de.letsdev.products.dico.scanner.backend.db.Location;
 import de.letsdev.products.dico.scanner.backend.db.LocationRepository;
 import de.letsdev.products.dico.scanner.backend.helper.DistanceHelper;
+import de.letsdev.products.dico.scanner.backend.helper.TimestampConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -31,11 +31,8 @@ public class LocationService {
 
     public Location savePosition(Device device, Position position) {
 
-        Instant instant = Instant.parse(position.getTimestamp());
-        Timestamp timestamp = Timestamp.from(instant);
-
         Location location = new Location();
-        location.setTimestamp(timestamp);
+        location.setTimestamp(TimestampConverter.convertStringToTimestamp(position.getTimestamp()));
         location.setLon(position.getLon());
         location.setLat(position.getLat());
         location.setAccuracy(position.getAccuracy());

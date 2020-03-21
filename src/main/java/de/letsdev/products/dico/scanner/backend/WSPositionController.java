@@ -3,8 +3,13 @@ package de.letsdev.products.dico.scanner.backend;
 import de.letsdev.products.dico.scanner.backend.db.Device;
 import de.letsdev.products.dico.scanner.backend.db.Location;
 import de.letsdev.products.dico.scanner.backend.push.PushService;
+import de.letsdev.products.dico.scanner.backend.db.TestState;
+import de.letsdev.products.dico.scanner.backend.helper.TestStateConverter;
 import de.letsdev.products.dico.scanner.backend.service.DeviceService;
 import de.letsdev.products.dico.scanner.backend.service.LocationService;
+import de.letsdev.products.dico.scanner.backend.service.TestStateService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +37,9 @@ public class WSPositionController {
             produces = "application/json"
     )
     public ResponseEntity<Object> position(@RequestHeader(X_ATT_DEVICE_HEADER) String deviceIdHeader, @RequestBody Position position) {
+
         Device device = deviceService.findByDeviceUuid(deviceIdHeader);
-        if(device == null) {
+        if (device == null) {
             device = deviceService.createDevice(deviceIdHeader);
         }
 
@@ -41,7 +47,7 @@ public class WSPositionController {
         Location location = locationService.savePosition(device, position);
 
         //TODO search area
-        if(location != null) {
+        if (location != null) {
             locationService.findNearlyLocations(location);
             log.info("location successfully saved for device: " + device.getId());
             return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
