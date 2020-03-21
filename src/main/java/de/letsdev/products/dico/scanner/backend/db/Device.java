@@ -1,5 +1,6 @@
 package de.letsdev.products.dico.scanner.backend.db;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,11 +14,42 @@ public class Device {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id;
+    private long id;
 
-    String uuid;
+    @Column(unique = true)
+    private String uuid;
 
     @OneToMany
     @JoinColumn(name = "location_id")
-    Set<Location> locations;
+    private Set<Location> locations;
+
+    public void setId(long id) {
+
+        this.id = id;
+    }
+
+    public void setUuid(String uuid) {
+
+        this.uuid = uuid;
+    }
+
+    public void setLocations(Set<Location> locations) {
+
+        this.locations = locations;
+    }
+
+    public long getId() {
+
+        return id;
+    }
+
+    public String getUuid() {
+
+        return uuid;
+    }
+
+    public Set<Location> getLocations() {
+
+        return locations;
+    }
 }
