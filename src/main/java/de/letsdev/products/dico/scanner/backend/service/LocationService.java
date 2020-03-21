@@ -4,8 +4,11 @@ import de.letsdev.products.dico.scanner.backend.Position;
 import de.letsdev.products.dico.scanner.backend.db.Device;
 import de.letsdev.products.dico.scanner.backend.db.Location;
 import de.letsdev.products.dico.scanner.backend.db.LocationRepository;
+import de.letsdev.products.dico.scanner.backend.helper.DistanceHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -60,19 +63,20 @@ public class LocationService {
 
     @Async
     public CompletableFuture<List<Location>> findNearlyLocations(Location location) {
-        //TODO get allLocations withing 14 day (config value)
-        String maxDays = environment.getProperty("coscan.search.maximum.days");
-        int max = Integer.parseInt(maxDays);
+        String maxDaysConfig = environment.getProperty("coscan.search.maximum.days");
+        int maxDays = Integer.parseInt(maxDaysConfig);
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(location.getTimestamp());
-        cal.add(Calendar.DAY_OF_WEEK, -max);
+        cal.add(Calendar.DAY_OF_WEEK, -maxDays);
         Timestamp referenceTimestamp = new Timestamp(cal.getTime().getTime());
 
         List<Location> locations = locationRepository.findAllByTimestampAfter(referenceTimestamp);
 
         double latFrom = location.getLat();
         double lonFrom = location.getLon();
+
+        DistanceHelper.findLocations();
 
         return null;
     }

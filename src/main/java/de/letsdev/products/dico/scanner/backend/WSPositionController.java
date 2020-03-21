@@ -2,6 +2,7 @@ package de.letsdev.products.dico.scanner.backend;
 
 import de.letsdev.products.dico.scanner.backend.db.Device;
 import de.letsdev.products.dico.scanner.backend.db.Location;
+import de.letsdev.products.dico.scanner.backend.helper.DistanceHelper;
 import de.letsdev.products.dico.scanner.backend.service.DeviceService;
 import de.letsdev.products.dico.scanner.backend.service.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +35,16 @@ public class WSPositionController {
         }
 
         // business logic
-        locationService.savePosition(device, position);
-        return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
+        Location location = locationService.savePosition(device, position);
+        DistanceHelper.findLocations(position.getLat(), 10.0, position.getLon(), 10.0);
+
+        //TODO search area
+        if(location != null) {
+            locationService.findNearlyLocations(location);
+            return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
+        }
+
+        return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @GetMapping("/show/{deviceId}")
