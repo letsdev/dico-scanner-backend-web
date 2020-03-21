@@ -13,10 +13,11 @@ public class TestResultReminder {
 
     Logger log = LoggerFactory.getLogger(TestResultReminder.class);
 
-    @Scheduled(cron="*/10 * * * * *", zone="Europe/Berlin")
+    @Scheduled(cron="* * 12 * * *", zone="Europe/Berlin")
     public void doScheduledWork() {
 
         log.info("asdsasadas");
+
 
     }
 }

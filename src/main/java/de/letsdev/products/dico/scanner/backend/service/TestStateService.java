@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 @Service
@@ -18,6 +19,8 @@ public class TestStateService {
 
     @Autowired
     private TestStateRepository testStateRepository;
+
+    private static final int REMEMBER_DAYS_PENDING_TEST = 2;
 
     public void createTest(String timeString, Device device) {
 
@@ -37,11 +40,8 @@ public class TestStateService {
         List<Test> tests = new ArrayList<>(testStates.size());
 
         for (TestState testState : testStates) {
-            Test test = new Test(
-                    testState.getId(),
-                    testState.getTimestamp().toInstant().toString(),
-                    testState.getState()
-            );
+            Test test = new Test(testState.getId(), testState.getTimestamp().toInstant().toString(),
+                    testState.getState());
             tests.add(test);
         }
 
@@ -49,6 +49,7 @@ public class TestStateService {
     }
 
     public void updateTest(Test test, Device device) {
+
         TestState testState = new TestState();
         testState.setTimestamp(TimestampConverter.convertStringToTimestamp(test.getTimestamp()));
         testState.setDevice(device);
@@ -58,4 +59,19 @@ public class TestStateService {
         testStateRepository.save(testState);
     }
 
+    public List<Device> findAllDevicesWithPendingTestAfterReferenceTime() {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_YEAR, -REMEMBER_DAYS_PENDING_TEST);
+        Timestamp referenceTimestamp = new Timestamp(calendar.getTimeInMillis());
+        List<TestState> testStates = testStateRepository.findAllByStateAndTimestampBefore(TestState.State.INITIALIZED, referenceTimestamp);
+        List<Device> devices = new ArrayList<>();
+        for(TestState testState : testStates) {
+            if(!devices.contains(testState.getDevice())) {
+                devices.add(testState.getDevice());
+            }
+        }
+
+        return devices;
+    }
 }
