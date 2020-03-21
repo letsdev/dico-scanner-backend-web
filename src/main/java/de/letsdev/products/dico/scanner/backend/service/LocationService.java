@@ -8,6 +8,8 @@ import de.letsdev.products.dico.scanner.backend.helper.DistanceHelper;
 import de.letsdev.products.dico.scanner.backend.helper.TimestampConverter;
 import de.letsdev.products.dico.scanner.backend.push.PushService;
 import de.letsdev.products.dico.scanner.backend.push.PushServiceException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Async;
@@ -17,7 +19,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 @Service
 public class LocationService {
@@ -35,6 +36,8 @@ public class LocationService {
     private static final String DEFAULT_VALUE_BETWEEN_TIME = "30";
     private static final String DEFAULT_VALUE_MAX_DISTANCE = "200";
     private static final String PLACEHOLDER_TEXT = "{0}";
+
+    Logger log = LoggerFactory.getLogger(LocationService.class);
 
     public Location savePosition(Device device, Position position) {
 
@@ -108,7 +111,7 @@ public class LocationService {
 
         for (Location loc : locations) {
             if(DistanceHelper.isDistanceSmallerThanReference(latFrom, loc.getLat(), lonFrom, loc.getLon(), maxMeters))  {
-                //TODO logs
+                log.info("found positive test near location " + location.getId());
                 String title = environment.getProperty("push.message.title", "Positiver Test in der Nähe");
                 String message = environment.getProperty("push.message.message", "In Ihrer Nähe gab es einen positiven Test");
                 message = message.replace(PLACEHOLDER_TEXT, location.getTimestamp().toString());
@@ -116,7 +119,7 @@ public class LocationService {
                     pushService.sendPushToDevice(title, message, location.getDevice().getUuid());
                     break;
                 } catch (PushServiceException e) {
-                    //TODO logs
+                    log.error("error while sending push message");
                     e.printStackTrace();
                 }
             }

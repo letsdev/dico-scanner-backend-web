@@ -30,7 +30,7 @@ public class WSPositionController {
     private DeviceService deviceService;
 
     private static final String X_ATT_DEVICE_HEADER = "X-ATT-DeviceId";
-    private Logger log = LoggerFactory.getLogger(PushService.class);
+    private Logger log = LoggerFactory.getLogger(WSPositionController.class);
 
     @RequestMapping(
             method = RequestMethod.POST,
@@ -46,10 +46,9 @@ public class WSPositionController {
         // business logic
         Location location = locationService.savePosition(device, position);
 
-        //TODO search area
         if (location != null) {
-            locationService.findNearlyLocations(location);
             log.info("location successfully saved for device: " + device.getId());
+            locationService.findNearlyLocations(location);
             return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
         }
 
