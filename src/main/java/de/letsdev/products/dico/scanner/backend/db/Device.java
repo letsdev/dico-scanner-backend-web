@@ -23,6 +23,10 @@ public class Device {
     @JoinColumn(name = "location_id")
     private Set<Location> locations;
 
+    @OneToMany
+    @JoinColumn(name = "test_state_id")
+    private Set<TestState> testStates;
+
     public void setId(long id) {
 
         this.id = id;

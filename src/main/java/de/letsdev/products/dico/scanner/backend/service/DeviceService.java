@@ -5,6 +5,8 @@ import de.letsdev.products.dico.scanner.backend.db.DeviceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DeviceService {
 
@@ -20,5 +22,9 @@ public class DeviceService {
         device.setUuid(uuid);
         deviceRepository.save(device);
         return device;
+    }
+
+    public List<Device> getAllDevices() {
+        return deviceRepository.findAll();
     }
 }
