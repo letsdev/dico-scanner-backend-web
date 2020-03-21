@@ -6,6 +6,8 @@ import de.letsdev.products.dico.scanner.backend.db.Location;
 import de.letsdev.products.dico.scanner.backend.db.LocationRepository;
 import de.letsdev.products.dico.scanner.backend.helper.DistanceHelper;
 import de.letsdev.products.dico.scanner.backend.helper.TimestampConverter;
+import de.letsdev.products.dico.scanner.backend.push.PushService;
+import de.letsdev.products.dico.scanner.backend.push.PushServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Async;
@@ -24,11 +26,15 @@ public class LocationService {
     private LocationRepository locationRepository;
 
     @Autowired
+    private PushService pushService;
+
+    @Autowired
     private Environment environment;
 
     private static final String DEFAULT_VALUE_MAX_DAYS = "14";
     private static final String DEFAULT_VALUE_BETWEEN_TIME = "30";
     private static final String DEFAULT_VALUE_MAX_DISTANCE = "200";
+    private static final String PLACEHOLDER_TEXT = "{0}";
 
     public Location savePosition(Device device, Position position) {
 
@@ -71,7 +77,7 @@ public class LocationService {
     }
 
     @Async
-    public CompletableFuture<List<Location>> findNearlyLocations(Location location) {
+    public void findNearlyLocations(Location location) {
 
 //        String maxDaysConfig = environment.getProperty("coscan.search.maximum.days", DEFAULT_VALUE_MAX_DAYS);
 //        int maxDays = Integer.parseInt(maxDaysConfig);
@@ -92,7 +98,6 @@ public class LocationService {
         cal.add(Calendar.MINUTE, 2 * searchBetweenTime);
         Timestamp referenceTimestampAfter = new Timestamp(cal.getTime().getTime());
 
-        //TODO fetch only positive co
         List<Location> locations = locationRepository.findAllByTestResultPositiveAndTimestampBetweenAnd(referenceTimestampBefore, referenceTimestampAfter);
 
         double latFrom = location.getLat();
@@ -102,9 +107,19 @@ public class LocationService {
         int maxMeters = Integer.parseInt(maxMetersConfig);
 
         for (Location loc : locations) {
-            DistanceHelper.isDistanceBiggerThanReference(latFrom, loc.getLat(), lonFrom, loc.getLon(), maxMeters);
+            if(DistanceHelper.isDistanceSmallerThanReference(latFrom, loc.getLat(), lonFrom, loc.getLon(), maxMeters))  {
+                //TODO logs
+                String title = environment.getProperty("push.message.title", "Positiver Test in der Nähe");
+                String message = environment.getProperty("push.message.message", "In Ihrer Nähe gab es einen positiven Test");
+                message = message.replace(PLACEHOLDER_TEXT, location.getTimestamp().toString());
+                try {
+                    pushService.sendPushToDevice(title, message, location.getDevice().getUuid());
+                    break;
+                } catch (PushServiceException e) {
+                    //TODO logs
+                    e.printStackTrace();
+                }
+            }
         }
-
-        return null;
     }
 }
