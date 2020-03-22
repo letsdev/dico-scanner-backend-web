@@ -1,0 +1,19 @@
+.main-header-container {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  left: $main-navigation-width;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: $main-header-height;
+  padding: 0 1rem;
+  color: $main-font-light;
+  background-color: $main-bg-dark;
+
+  .heading {
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+}

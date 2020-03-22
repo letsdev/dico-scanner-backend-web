@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<!--
+  ~ Project: co scan
+  ~
+  ~ User: avoelker
+  ~ Date: 22.03.2020
+  ~
+  ~ This code is copyright (c) 2019 let's dev GmbH & Co. KG
+  ~ URL: https://www.letsdev.de
+  ~ e-Mail: contact@letsdev.de
+  -->
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="meta_header">
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta name="ctx" th:content="${#httpServletRequest.getContextPath()}"/>
+    <title th:text="${pageTitle} ? ${pageTitle} : 'Co Scan Backend'">Co Scan Backend</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" type="text/css">
+    <link rel="stylesheet" th:href="${stylesheet}" type="text/css">
+    <script th:src="@{/js/jquery-3.4.1.min.js}" type="text/javascript"></script>
+    <script th:src="@{/js/leaflet.js}" type="text/javascript"></script>
+    <script th:src="@{/js/general.js}" type="text/javascript"></script>
+</head>
+<body>
+</body>
+</html>

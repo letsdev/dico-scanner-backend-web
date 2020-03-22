@@ -1,0 +1,15 @@
+/*
+MIXINS
+*/
+@mixin transformRotate($degree) {
+  -moz-transform: rotate($degree);
+  -ms-transform: rotate($degree);
+  -o-transform: rotate($degree);
+  -webkit-transform: rotate($degree);
+}
+
+@mixin appearance($style) {
+  -webkit-appearance: $style;
+  -moz-appearance: $style;
+  appearance: $style;
+}

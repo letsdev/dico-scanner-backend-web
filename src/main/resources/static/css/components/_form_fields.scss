@@ -1,0 +1,148 @@
+.input-content {
+  position: relative;
+  display: block;
+  width: 100%;
+  margin-bottom: 1rem;
+
+  label,
+  .label {
+    font-size: 0.875rem;
+    line-height: normal;
+    font-weight: bold;
+    display: inline-block;
+    margin: 0 0 0.25rem;
+    letter-spacing: normal;
+  }
+
+  input,
+  select,
+  textarea {
+    font-family: $font-family;
+    font-size: 1rem;
+    display: block;
+    width: 100%;
+    height: 2.5rem;
+    margin: 0;
+    padding: 0.5rem;
+    cursor: text;
+    color: $main-font;
+    border: 1px solid $input-border;
+    border-radius: $input-radius;
+    background-color: $input-bg;
+  }
+
+  input,
+  textarea {
+    &:read-only {
+      border-color: $input-disabled;
+    }
+  }
+
+  input,
+  select,
+  textarea {
+    &:focus {
+      border-color: $primary;
+    }
+
+    &:disabled {
+      border-color: $input-disabled;
+    }
+  }
+
+  textarea {
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 2.5rem;
+  }
+
+  select {
+    padding: 0 2rem 0 0.5rem;
+    cursor: pointer;
+    @include appearance(none);
+    background-image: url("../img/icons/ic_select.svg");
+    background-repeat: no-repeat;
+    background-position: calc(100% - 0.25rem) center;
+    background-size: auto 1.5rem;
+  }
+
+  ::-webkit-input-placeholder {
+    color: $input-placeholder;
+  }
+
+  ::-moz-placeholder {
+    color: $input-placeholder;
+  }
+
+  :-ms-input-placeholder {
+    color: $input-placeholder;
+  }
+
+  ::placeholder {
+    color: $input-placeholder;
+  }
+
+  input[type="checkbox"],
+  input[type="radio"] {
+    display: none;
+
+    ~ label {
+      font-weight: normal;
+      display: inline-block;
+      width: auto;
+      margin: 0;
+      cursor: pointer;
+      //letter-spacing: 0.03em;
+
+      span {
+        font-size: 1rem;
+        display: inline-block;
+        padding: 0.25rem;
+        vertical-align: middle;
+
+        &.checkbox-unchecked,
+        &.checkbox-checked,
+        &.radio-checked,
+        &.radio-unchecked {
+          width: 1.5rem;
+          height: 1.5rem;
+          margin-right: 0.25rem;
+          padding: 0;
+          text-align: center;
+
+          i.material-icons {
+            line-height: 1.5rem;
+          }
+        }
+
+        &.radio-unchecked,
+        &.checkbox-unchecked {
+          display: inline-block;
+          color: $main-font;
+        }
+
+        &.radio-checked,
+        &.checkbox-checked {
+          display: none;
+          color: $primary;
+        }
+      }
+    }
+
+    &:checked {
+      ~ label {
+        span {
+          &.radio-unchecked,
+          &.checkbox-unchecked {
+            display: none;
+          }
+
+          &.radio-checked,
+          &.checkbox-checked {
+            display: inline-block;
+          }
+        }
+      }
+    }
+  }
+}

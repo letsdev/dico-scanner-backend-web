@@ -14,7 +14,8 @@ public class PushService {
 
     private static String hostUrl = "https://letspush.com";
     private static String endpoint = "/rest/notificationV2";
-    private static String restApiKey = "c149c1a0913e3f24a365fcdba6e38202474ebe8d7f67f0641b842e6658e6f83c";
+    private static String restApiKey = "0efb1e78-190b-468c-b299-26cb6bf51306"; /* api key for covid */
+    //private static String restApiKey = "c149c1a0913e3f24a365fcdba6e38202474ebe8d7f67f0641b842e6658e6f83c"; /* Team key */
 
     Logger log = LoggerFactory.getLogger(PushService.class);
 
@@ -32,7 +33,7 @@ public class PushService {
         RestTemplate restTemplate = new RestTemplate();
 
         PushRequestDto pushRequestDto = new PushRequestDto();
-        pushRequestDto.setDeviceQuery("[deviceId=" + deviceId + "]");
+        pushRequestDto.setDeviceQuery("deviceId = [" + deviceId + "]");
         pushRequestDto.setTitle(title);
         pushRequestDto.setMessage(message);
         pushRequestDto.setId(UUID.randomUUID().toString());

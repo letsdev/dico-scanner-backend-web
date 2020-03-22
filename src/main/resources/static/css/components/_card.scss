@@ -1,0 +1,21 @@
+//todo
+.card-row-module {
+  width: 100%;
+  margin-bottom: 1rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .card-wrapper {
+    padding: 1rem;
+    border: $card-border;
+    border-radius: $card-radius;
+    background-color: $card-bg;
+    box-shadow: $card-shadow;
+
+    .header {
+      margin-bottom: 1rem;
+    }
+  }
+}
