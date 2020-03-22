@@ -1,0 +1,26 @@
+.form-wrapper {
+  .input-row-wrapper {
+    @extend .clearfix;
+
+    > * {
+      float: left;
+      margin-right: 1rem;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    .input-content {
+      &.width-50 {
+        width: calc(50% - 0.5rem);
+      }
+      &.width-25 {
+        width: calc(25% - 0.25rem);
+      }
+      &.width-75 {
+        width: calc(75% - 0.75rem);
+      }
+    }
+  }
+}

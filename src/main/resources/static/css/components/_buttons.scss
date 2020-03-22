@@ -1,0 +1,97 @@
+button,
+input[type=submit] {
+  font: inherit;
+  line-height: normal;
+  display: inline-block;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  text-align: start;
+  text-indent: 0;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-transform: none;
+  color: initial;
+  border: none;
+  background: none;
+  box-shadow: none;
+  text-shadow: none;
+  text-rendering: auto;
+}
+
+.button,
+input[type=submit],
+button,
+a.button {
+  font-family: $font-family-headline;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 2.5rem;
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: 2.5rem;
+  padding: 0 2.5rem;
+  cursor: pointer;
+  text-align: center;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  opacity: 1;
+  border: none;
+  border-radius: $button-radius;
+  background: none;
+}
+
+
+.button,
+input[type=submit],
+button,
+a.button {
+  &:hover {
+    transition: opacity 0.3s;
+    opacity: 0.8;
+  }
+
+  &.primary-button {
+    color: $main-font-light;
+    background: $primary;
+  }
+
+  &.secondary-button {
+    color: $primary;
+    background: transparent;
+    border: 1px solid $primary;
+  }
+
+  &.delete-button {
+    color: $main-font-light;
+    background: $error;
+  }
+
+  &.success-button {
+    color: $main-font-light;
+    background: $success;
+  }
+
+  &.small {
+    //font-size: 0.6rem;
+    line-height: 2rem;
+    height: 2rem;
+    padding: 0 1rem;
+  }
+}
+
+.button-wrapper {
+  margin-top: 2rem;
+  @extend .clearfix;
+
+  .primary-button {
+    float: right;
+    margin-left: 1rem;
+  }
+
+  .secondary-button {
+    float: left;
+  }
+}

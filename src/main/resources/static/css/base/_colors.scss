@@ -1,0 +1,50 @@
+/* B/W */
+$white: #FFFFFF;
+$black: #000000;
+
+/* NEUTRAL */
+$grey-dark: #232425;
+$grey: #A6A6A6;
+$grey-light: #F0F0F0;
+
+/* COLORS */
+$black: #000000;
+$white: #FFFFFF;
+$blue-dark: #00509E;
+$blue-normal: #0070D5;
+$blue-medium: #0084DB;
+$blue-light: #B3CAFF;
+$white-transparent: rgba($white, 0.6);
+$green: #06B474;
+$red: #DA0037;
+$orange: #FF9900;
+
+/* MAIN */
+$primary: $blue-normal;
+$success: $green;
+$error: $red;
+$warning: $orange;
+
+/* BACKGROUNDS */
+$main-bg-body: $white;
+$main-bg-light: $grey-light;
+$main-bg-dark: $black;
+
+/* FONT COLORS */
+$main-font: $black;
+$font-color-light: $grey-dark;
+$main-font-light: $white;
+
+/* ELEMENT COLORS */
+$input-disabled: rgba($black, 0.1);
+$input-border: $black;
+$input-bg: $white;
+$input-placeholder: rgba($black, 0.7);
+
+/* TABLE COLORS */
+$table-border: rgba($black, 0.2);
+
+/* CARD*/
+$card-bg: $white;
+$card-shadow: 0 2px 4px 0 rgba($grey-dark, 0.3);
+$card-border: 1px solid rgba($black, 0.1);

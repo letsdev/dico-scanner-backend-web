@@ -1,0 +1,90 @@
+html, body {
+  font-family: $font-family;
+  font-size: 16px;
+  line-height: 1.25em;
+  letter-spacing: 0.03em;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+html *, div, section {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html *:focus {
+  outline: none;
+}
+
+body {
+  position: relative;
+  min-width: $page-min-width;
+  padding: $main-header-height 0 0 $main-navigation-width;
+  color: $main-font;
+  background: $main-bg-body;
+
+  &.no-menu {
+    padding: 0;
+  }
+}
+
+.clearfix {
+  &::after {
+    display: block;
+    clear: both;
+    content: "";
+  }
+}
+
+.float {
+  @extend .clearfix;
+
+  > * {
+    float: left;
+  }
+}
+
+.flex {
+  display: flex;
+}
+
+.full-width,
+.width-75,
+.width-70,
+.width-50,
+.width-30,
+.width-25 {
+  margin-right: 1rem;
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+.width-50 {
+  width: calc(50% - 0.5rem);
+}
+
+.width-25 {
+  width: calc(25% - 0.75rem);
+}
+
+.width-75 {
+  width: calc(75% - 0.25rem);
+}
+
+.width-30 {
+  width: calc(30% - 0.7rem);
+}
+
+.width-70 {
+  width: calc(70% - 0.3rem);
+}
