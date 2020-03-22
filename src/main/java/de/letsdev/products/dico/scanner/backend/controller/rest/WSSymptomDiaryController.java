@@ -1,4 +1,4 @@
-package de.letsdev.products.dico.scanner.backend;
+package de.letsdev.products.dico.scanner.backend.controller.rest;
 
 import de.letsdev.products.dico.scanner.backend.db.Device;
 import de.letsdev.products.dico.scanner.backend.db.Symptom;

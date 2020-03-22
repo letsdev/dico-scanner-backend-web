@@ -1,5 +1,6 @@
-package de.letsdev.products.dico.scanner.backend;
+package de.letsdev.products.dico.scanner.backend.controller.rest;
 
+import de.letsdev.products.dico.scanner.backend.Position;
 import de.letsdev.products.dico.scanner.backend.db.Device;
 import de.letsdev.products.dico.scanner.backend.db.Location;
 import de.letsdev.products.dico.scanner.backend.service.DeviceService;
@@ -36,7 +37,8 @@ public class WSPositionController {
             method = RequestMethod.POST,
             produces = "application/json"
     )
-    public ResponseEntity<Object> position(@RequestHeader(WSHelper.X_ATT_DEVICE_HEADER) String deviceIdHeader, @RequestBody Position position) {
+    public ResponseEntity<Object> position(@RequestHeader(WSHelper.X_ATT_DEVICE_HEADER) String deviceIdHeader, @RequestBody
+            Position position) {
         Device device = deviceService.findByDeviceUuid(deviceIdHeader);
         if (device == null) {
             device = deviceService.createDevice(deviceIdHeader);
