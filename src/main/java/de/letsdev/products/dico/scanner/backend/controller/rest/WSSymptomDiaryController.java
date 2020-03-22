@@ -55,9 +55,14 @@ public class WSSymptomDiaryController {
         for (de.letsdev.products.dico.scanner.backend.ws.dto.Symptom currentDtoSymptom : symptomDiary.getSymptoms()) {
 
             Symptom tmpDbSymptom = this.symptomRepository.findById(currentDtoSymptom.getId());
-            dbSymptomDiary.getSymptoms().add(tmpDbSymptom);
+            if(tmpDbSymptom != null) {
+                dbSymptomDiary.getSymptoms().add(tmpDbSymptom);
 
-            symptomIds.add(tmpDbSymptom.getId());
+                symptomIds.add(tmpDbSymptom.getId());
+            } else {
+                log.warn("current symptom not found " + currentDtoSymptom.getId());
+            }
+
         }
 
         log.info("found " + symptomIds.size() + " symptoms");
