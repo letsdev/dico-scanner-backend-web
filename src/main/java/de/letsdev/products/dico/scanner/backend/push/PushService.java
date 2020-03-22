@@ -4,9 +4,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 @Service
@@ -31,8 +34,11 @@ public class PushService {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", restApiKey);
         headers.add("From", bundleIdentifier);
+        headers.add("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE);
 
         RestTemplate restTemplate = new RestTemplate();
+        restTemplate.getMessageConverters()
+                .add(0, new StringHttpMessageConverter(StandardCharsets.UTF_8));
 
         PushRequestDto pushRequestDto = new PushRequestDto();
         pushRequestDto.setDeviceQuery("deviceId = [" + deviceId + "]");
