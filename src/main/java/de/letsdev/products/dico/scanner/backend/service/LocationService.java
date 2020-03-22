@@ -15,6 +15,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -81,6 +82,7 @@ public class LocationService {
     }
 
     @Async
+    @Transactional
     public void findNearlyLocations(Device device) {
 
         log.info("check nearly locations for device " + device.getId());

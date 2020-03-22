@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @RestController
@@ -49,6 +50,7 @@ public class WSTestController {
     }
 
     @PostMapping("/sendResult")
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
     public ResponseEntity<Object> updateTest(@RequestHeader(X_ATT_DEVICE_HEADER) String deviceIdHeader, @RequestBody Test request) {
         Device device = deviceService.findByDeviceUuid(deviceIdHeader);
         if (device == null) {
