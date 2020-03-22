@@ -14,7 +14,7 @@ public class Position {
 
     boolean HasPositiveResult;
 
-    Device device;
+    String device;
 
     public float getLon() {
         return lon;
@@ -56,11 +56,11 @@ public class Position {
         HasPositiveResult = hasPositiveResult;
     }
 
-    public Device getDevice() {
+    public String getDevice() {
         return device;
     }
 
-    public void setDevice(Device device) {
+    public void setDevice(String device) {
         this.device = device;
     }
 }

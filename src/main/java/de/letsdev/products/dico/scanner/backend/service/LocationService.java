@@ -71,7 +71,7 @@ public class LocationService {
     }
 
     private List<Position> convertList(List<Location> list) {
-        List<Position> positions = new ArrayList<Position>(list.size());
+        List<Position> positions = new ArrayList<>(list.size());
 
         for (Location location : list) {
             Position position = new Position();
@@ -79,6 +79,7 @@ public class LocationService {
             position.setLat(location.getLat());
             position.setAccuracy(location.getAccuracy());
             position.setTimestamp(location.getTimestamp().toString());
+            position.setDevice(location.getDevice().getUuid());
             positions.add(position);
         }
 

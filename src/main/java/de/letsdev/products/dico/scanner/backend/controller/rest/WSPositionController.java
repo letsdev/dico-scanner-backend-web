@@ -67,7 +67,7 @@ public class WSPositionController {
             List<Position> positions = locationService.findAll();
 
             for (Position position : positions) {
-                if (positiveDevices.contains(position.getDevice().getUuid())) {
+                if (positiveDevices.contains(position.getDevice())) {
                     position.setHasPositiveResult(true);
                 }
             }
