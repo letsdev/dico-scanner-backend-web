@@ -29,7 +29,7 @@ public class TestResultReminder {
 
     Logger log = LoggerFactory.getLogger(TestResultReminder.class);
 
-    @Scheduled(cron="0 0 12 * * *", zone="Europe/Berlin")
+    @Scheduled(cron="0 10 17 * * *", zone="Europe/Berlin")
     public void doScheduledWork() {
 
         log.info("daily scheduler for test result reminder started");
