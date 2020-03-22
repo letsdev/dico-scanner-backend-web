@@ -83,14 +83,20 @@ public class LocationService {
     @Async
     public void findNearlyLocations(Device device) {
 
-        log.info("check nearly locations for device " +  device.getId());
+        log.info("check nearly locations for device " + device.getId());
         List<Device> devicesToWarn = new ArrayList<>();
         String maxDaysConfig = environment.getProperty("coscan.search.maximum.days", DEFAULT_VALUE_MAX_DAYS);
         int maxDays = Integer.parseInt(maxDaysConfig);
-        String searchBetweenTimeConfig = environment.getProperty("coscan.search.between.minutes", DEFAULT_VALUE_BETWEEN_TIME);
+        String searchBetweenTimeConfig = environment.getProperty("coscan.search.between.minutes",
+                DEFAULT_VALUE_BETWEEN_TIME);
         int searchBetweenTime = Integer.parseInt(searchBetweenTimeConfig);
-        String maxMetersConfig = environment.getProperty("coscan.search.area.alert.max.distance.meters", DEFAULT_VALUE_MAX_DISTANCE);
+        String maxMetersConfig = environment.getProperty("coscan.search.area.alert.max.distance.meters",
+                DEFAULT_VALUE_MAX_DISTANCE);
         int maxMeters = Integer.parseInt(maxMetersConfig);
+
+        String title = environment.getProperty("push.message.test.title", "Positiver Covid-19 Test in der Nähe");
+        String message = environment.getProperty("push.message.test.message",
+                "In Ihrer Nähe gab es einen positiv getesteten Covid-19 Fall, lassen Sie sich testen.");
 
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DAY_OF_WEEK, -maxDays);
@@ -98,25 +104,35 @@ public class LocationService {
 
         Set<Location> locationsForPositiveDevice = device.getLocations();
 
-        for(Location locationForPositiveDevice : locationsForPositiveDevice) {
+        for (Location locationForPositiveDevice : locationsForPositiveDevice) {
 
             double latFrom = locationForPositiveDevice.getLat();
             double lonFrom = locationForPositiveDevice.getLon();
 
-            if(locationForPositiveDevice.getTimestamp().after(referenceTimestamp)) {
+            if (locationForPositiveDevice.getTimestamp().after(referenceTimestamp)) {
                 cal.setTime(locationForPositiveDevice.getTimestamp());
                 cal.add(Calendar.MINUTE, -searchBetweenTime);
                 Timestamp referenceTimestampBefore = new Timestamp(cal.getTime().getTime());
                 cal.add(Calendar.MINUTE, 2 * searchBetweenTime);
                 Timestamp referenceTimestampAfter = new Timestamp(cal.getTime().getTime());
 
-                List<Location> locationsToCheck = locationRepository.findAllByTestResultPositiveAndTimestampBetweenAnd(referenceTimestampBefore, referenceTimestampAfter, locationForPositiveDevice.getDevice().getId());
+                List<Location> locationsToCheck = locationRepository.findAllByTestResultPositiveAndTimestampBetweenAnd(
+                        referenceTimestampBefore, referenceTimestampAfter, locationForPositiveDevice.getDevice().getId());
                 log.info("found " + locationsToCheck.size() + " devices to check");
 
                 for (Location location : locationsToCheck) {
-                    if(!devicesToWarn.contains(location.getDevice()) && DistanceHelper.isDistanceSmallerThanReference(latFrom, location.getLat(), lonFrom, location.getLon(), maxMeters))  {
+                    if (!devicesToWarn.contains(location.getDevice()) && DistanceHelper.isDistanceSmallerThanReference(
+                            latFrom, location.getLat(), lonFrom, location.getLon(), maxMeters)) {
                         log.info("device " + location.getDevice().getId() + " added. Location: " + location.getId());
                         devicesToWarn.add(location.getDevice());
+
+                        message = message.replace(PLACEHOLDER_TEXT, location.getTimestamp().toString());
+                        try {
+                            pushService.sendPushToDevice(title, message, location.getDevice().getUuid(), "testDetected");
+                        } catch (PushServiceException e) {
+                            log.error("error while sending push message");
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
