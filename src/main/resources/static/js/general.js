@@ -1,4 +1,11 @@
+var selector_message_info = ".message.info";
+var selector_message_error = ".message.error";
 $(document).ready(function () {
+    initializeMap();
+    search();
+});
+
+function initializeMap() {
     let map = L.map('map', {
         center: [51.1642292, 10.4541194],
         zoom: 6
@@ -12,35 +19,35 @@ $(document).ready(function () {
         accessToken: 'pk.eyJ1IjoicGx1c21pZCIsImEiOiJjanF3cndqY3MxOTdmNDRtaHhzM3d6ZmtmIn0.wdF1uSS0OSPggWzVQGum2Q'
     }).addTo(map);
     let markers = [];
+}
 
-    function search() {
-        let deviceId = $('#search').val();
-        if (deviceId === '') {
-            deviceId = 'all';
-        }
-        $.ajax('./position/show/' + deviceId, {
-            success: function (result) {
-                console.log(result);
-                if (result.length === 0) {
-                    alert('This device ID doesn\'t exist or has never sent a location.');
-                    return;
-                }
-                for (let marker of markers) {
-                    marker.remove();
-                }
-                markers = [];
-                for (let pos of result) {
-                    markers.push(L.marker([pos.lat, pos.lon], {
-                        title: pos.timestamp
-                    }).addTo(map));
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error(status, error);
-                alert('There was a problem requesting the Device ID. Please try again.');
-            }
-        });
+function search() {
+    let deviceId = $('#deviceId').val();
+    if (deviceId === '') {
+        deviceId = 'all';
     }
-
-    search();
-});
+    $.ajax('./position/show/' + deviceId, {
+        success: function (result) {
+            console.log(result);
+            if (result.length === 0) {
+                $(selector_message_info).html('This device ID doesn\'t exist or has never sent a location.');
+                $(selector_message_info).show();
+                return;
+            }
+            for (let marker of markers) {
+                marker.remove();
+            }
+            markers = [];
+            for (let pos of result) {
+                markers.push(L.marker([pos.lat, pos.lon], {
+                    title: pos.timestamp
+                }).addTo(map));
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error(status, error);
+            $(selector_message_error).html('There was a problem requesting the Device ID. Please try again.');
+            $(selector_message_error).show();
+        }
+    });
+}

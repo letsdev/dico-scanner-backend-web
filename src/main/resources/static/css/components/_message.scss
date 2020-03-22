@@ -3,6 +3,11 @@
   margin: 1rem 0;
   color: $main-font-light;
   background-color: $black;
+  display: none;
+
+  &.info {
+    background-color: $blue-normal;
+  }
 
   &.warning {
     background-color: $warning;

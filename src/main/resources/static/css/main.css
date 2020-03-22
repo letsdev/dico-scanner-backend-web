@@ -604,7 +604,10 @@ table,
   padding: 1rem;
   margin: 1rem 0;
   color: #FFFFFF;
-  background-color: #000000; }
+  background-color: #000000;
+  display: none; }
+  .message.info {
+    background-color: #0070D5; }
   .message.warning {
     background-color: #FF9900; }
   .message.error {

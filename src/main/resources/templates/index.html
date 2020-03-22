@@ -15,10 +15,14 @@
 <header th:replace="~{fragments/header :: main_header(heading=${'Check device location'})}"></header>
 <nav th:replace="~{fragments/navigation :: main_navigation}"></nav>
 <section class="page-container">
+    <div class="message-wrapper">
+        <p class="message info"></p>
+        <p class="message error"></p>
+    </div>
     <div class="form-wrapper">
         <div class="input-content">
-            <label for="search" th:text="'Device id'"></label>
-            <input type="text" id="search" th:placeholder="'Enter device id'"/>
+            <label for="deviceId" th:text="'Device id'"></label>
+            <input type="text" id="deviceId" th:placeholder="'Enter device id'"/>
         </div>
         <div class="button-wrapper">
             <button onclick="search()" th:text="'Search'" class="primary-button"></button>
