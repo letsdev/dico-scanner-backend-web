@@ -1,0 +1,19 @@
+.footer-container {
+  padding: 1rem;
+  font-size: 0.75rem;
+  text-align: right;
+  background: $black;
+  color: $white;
+  border-top: 1px solid $main-bg-dark;
+  display: flex;
+  flex-direction: row;
+
+  .footer-content-wrapper {
+    width: 33%;
+    text-align: center;
+
+    a {
+      text-decoration: underline;
+    }
+  }
+}

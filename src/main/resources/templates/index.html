@@ -1,76 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Index</title>
-
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
-          integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-          crossorigin=""/>
-
-</head>
+<!--
+  ~ Project: co scan
+  ~
+  ~ User: avoelker
+  ~ Date: 22.03.2020
+  ~
+  ~ This code is copyright (c) 2019 let's dev GmbH & Co. KG
+  ~ URL: https://www.letsdev.de
+  ~ e-Mail: contact@letsdev.de
+  -->
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/meta_header :: meta_header}"></head>
 <body>
-
-<label for="search">Device ID: </label><input type="text" id="search"><button onclick="search()">Search</button>
-
-<div id="map" style="height: 600px; width: 800px"></div>
-
-<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
-        integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
-        crossorigin=""></script>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"
-        crossorigin=""></script>
-<script type="application/javascript">
-    let map = L.map('map', {
-        center: [51.1642292, 10.4541194],
-        zoom: 6
-    });
-
-    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-        maxZoom: 18,
-        id: 'mapbox/streets-v11',
-        tileSize: 512,
-        zoomOffset: -1,
-        accessToken: 'pk.eyJ1IjoicGx1c21pZCIsImEiOiJjanF3cndqY3MxOTdmNDRtaHhzM3d6ZmtmIn0.wdF1uSS0OSPggWzVQGum2Q'
-    }).addTo(map);
-
-    let markers = [];
-    function search() {
-        let deviceId = $('#search').val();
-        if (deviceId === '') {
-            deviceId = 'all';
-        }
-
-        $.ajax('./position/show/' + deviceId, {
-            success: function(result) {
-                console.log(result);
-
-                if (result.length === 0) {
-                    alert('This device ID doesn\'t exist or has never sent a location.');
-                    return;
-                }
-
-                for (let marker of markers) {
-                    marker.remove();
-                }
-                markers = [];
-
-                for (let pos of result) {
-                    markers.push(L.marker([pos.lat, pos.lon], {
-                        title: pos.timestamp
-                    }).addTo(map));
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error(status, error);
-                alert('There was a problem requesting the Device ID. Please try again.');
-            }
-        });
-    }
-
-    search();
-</script>
-
+<header th:replace="~{fragments/header :: main_header(heading=${'Check device location'})}"></header>
+<nav th:replace="~{fragments/navigation :: main_navigation}"></nav>
+<section class="page-container">
+    <div class="form-wrapper">
+        <div class="input-content">
+            <label for="search" th:text="'Device id'"></label>
+            <input type="text" id="search" th:placeholder="'Enter device id'"/>
+        </div>
+        <div class="button-wrapper">
+            <button onclick="search()" th:text="'Search'" class="primary-button"></button>
+        </div>
+    </div>
+    <div class="map-wrapper">
+        <div id="map" class="map-element"></div>
+    </div>
+</section>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>
 </html>

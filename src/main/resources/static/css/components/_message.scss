@@ -1,0 +1,18 @@
+.message {
+  padding: 1rem;
+  margin: 1rem 0;
+  color: $main-font-light;
+  background-color: $black;
+
+  &.warning {
+    background-color: $warning;
+  }
+
+  &.error {
+    background-color: $error;
+  }
+
+  &.success {
+    background-color: $success;
+  }
+}

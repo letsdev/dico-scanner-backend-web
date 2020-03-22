@@ -1,0 +1,128 @@
+.main-navigation-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: $main-navigation-width;
+  color: $main-font-light;
+  background: $main-bg-dark;
+  z-index: 1;
+  //overflow: hidden;
+
+  .product-wrapper {
+    text-align: center;
+    padding: 2rem;
+
+    .app-icon {
+      display: block;
+      height: 80px;
+      width: 80px;
+      margin: 0 auto;
+      border-radius: 16px;
+      background: url("../img/app-icon.png") center/ contain no-repeat;
+    }
+
+    .headline {
+      margin-top: 1rem;
+      font-weight: normal;
+      font-size: 1.25rem;
+      text-align: center;
+    }
+  }
+
+  .headline-wrapper {
+    padding: 2rem;
+    border-top: 1px solid $white;
+
+    .headline {
+      font-weight: normal;
+      font-size: 1rem;
+      text-align: center;
+    }
+  }
+
+  .logo-wrapper {
+    display: block;
+    margin: 0 0 2.5rem 0;
+
+    &.letsdev {
+      height: 72px;
+      background: url("../img/logo-letsdev.svg") center/ contain no-repeat;
+    }
+
+    &.velit {
+      height: 40px;
+      background: url("../img/logo-velit.svg") center/ contain no-repeat;
+    }
+  }
+
+  .navigation-wrapper {
+    &.scroll {
+      overflow-y: auto;
+      height: 100%;
+      min-height: 30rem;
+      padding-bottom: 4rem;
+    }
+
+    &.fixed {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+    }
+
+    .navigation-section-wrapper {
+      padding: 0.5rem 0;
+      color: $white;
+      border-bottom: 1px solid rgba($white, 0.2);
+
+      .header {
+        font-size: 0.75rem;
+        padding: 0.5rem 1rem;
+      }
+
+      &:last-child {
+        border: 0;
+      }
+    }
+
+    .navigation-item {
+      width: 100%;
+      height: 3rem;
+      padding: 0.75rem 1rem 0.75rem 0.75rem;
+      border-left: 0.25rem solid transparent;
+
+      .material-icons {
+        float: left;
+        width: 1.5rem;
+        height: 1.5rem;
+        margin-right: 1rem;
+        opacity: 0.5;
+      }
+
+      .navigation-item-label {
+        line-height: 1.5rem;
+        margin: 0;
+        opacity: 0.5;
+      }
+
+      &.active {
+        font-weight: 700;
+        border-left-color: $primary;
+        background-color: rgba($primary, 0.4);
+
+        .navigation-item-label,
+        .material-icons {
+          opacity: 1;
+        }
+      }
+
+      &:hover {
+        background-color: rgba($primary, 0.4);
+
+        .navigation-item-label {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}

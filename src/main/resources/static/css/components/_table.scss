@@ -1,0 +1,32 @@
+table,
+.table {
+  display: table;
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  border-bottom: 1px solid $table-border;
+
+  tr,
+  .table-row {
+    display: table-row;
+
+    th,
+    &.table-table-header-row .table-cell {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    td,
+    .table-cell {
+      display: table-cell;
+      padding: 0.5rem;
+      vertical-align: middle;
+    }
+
+    &:nth-of-type(2n) {
+      background: $main-bg-light;
+    }
+  }
+}
