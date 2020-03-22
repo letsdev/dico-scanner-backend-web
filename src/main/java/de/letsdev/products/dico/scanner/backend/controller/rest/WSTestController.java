@@ -1,5 +1,6 @@
 package de.letsdev.products.dico.scanner.backend.controller.rest;
 
+import de.letsdev.products.dico.scanner.backend.service.LocationService;
 import de.letsdev.products.dico.scanner.backend.ws.dto.Test;
 import de.letsdev.products.dico.scanner.backend.db.Device;
 import de.letsdev.products.dico.scanner.backend.db.TestState;
