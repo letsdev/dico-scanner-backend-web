@@ -19,6 +19,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class LocationService {
@@ -80,49 +81,47 @@ public class LocationService {
     }
 
     @Async
-    public void findNearlyLocations(Location location) {
+    public void findNearlyLocations(Device device) {
 
-//        String maxDaysConfig = environment.getProperty("coscan.search.maximum.days", DEFAULT_VALUE_MAX_DAYS);
-//        int maxDays = Integer.parseInt(maxDaysConfig);
-//
-//        Calendar cal = Calendar.getInstance();
-//        cal.setTime(location.getTimestamp());
-//        cal.add(Calendar.DAY_OF_WEEK, -maxDays);
-//        Timestamp referenceTimestamp = new Timestamp(cal.getTime().getTime());
-
-
+        log.info("check nearly locations for device " +  device.getId());
+        List<Device> devicesToWarn = new ArrayList<>();
+        String maxDaysConfig = environment.getProperty("coscan.search.maximum.days", DEFAULT_VALUE_MAX_DAYS);
+        int maxDays = Integer.parseInt(maxDaysConfig);
         String searchBetweenTimeConfig = environment.getProperty("coscan.search.between.minutes", DEFAULT_VALUE_BETWEEN_TIME);
         int searchBetweenTime = Integer.parseInt(searchBetweenTimeConfig);
-
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(location.getTimestamp());
-        cal.add(Calendar.MINUTE, -searchBetweenTime);
-        Timestamp referenceTimestampBefore = new Timestamp(cal.getTime().getTime());
-        cal.add(Calendar.MINUTE, 2 * searchBetweenTime);
-        Timestamp referenceTimestampAfter = new Timestamp(cal.getTime().getTime());
-
-        List<Location> locations = locationRepository.findAllByTestResultPositiveAndTimestampBetweenAnd(referenceTimestampBefore, referenceTimestampAfter, location.getDevice().getId());
-
-        double latFrom = location.getLat();
-        double lonFrom = location.getLon();
-
         String maxMetersConfig = environment.getProperty("coscan.search.area.alert.max.distance.meters", DEFAULT_VALUE_MAX_DISTANCE);
         int maxMeters = Integer.parseInt(maxMetersConfig);
 
-        for (Location loc : locations) {
-            if(DistanceHelper.isDistanceSmallerThanReference(latFrom, loc.getLat(), lonFrom, loc.getLon(), maxMeters))  {
-                log.info("found positive test near location " + location.getId());
-                String title = environment.getProperty("push.message.test.title", "Positiver Covid-19 Test in der Nähe");
-                String message = environment.getProperty("push.message.test.message", "In Ihrer Nähe gab es einen positiv getesteten Covid-19 Fall, lassen Sie sich testen.");
-                message = message.replace(PLACEHOLDER_TEXT, location.getTimestamp().toString());
-                try {
-                    pushService.sendPushToDevice(title, message, location.getDevice().getUuid(), "testDetected");
-                    break;
-                } catch (PushServiceException e) {
-                    log.error("error while sending push message");
-                    e.printStackTrace();
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_WEEK, -maxDays);
+        Timestamp referenceTimestamp = new Timestamp(cal.getTime().getTime());
+
+        Set<Location> locationsForPositiveDevice = device.getLocations();
+
+        for(Location locationForPositiveDevice : locationsForPositiveDevice) {
+
+            double latFrom = locationForPositiveDevice.getLat();
+            double lonFrom = locationForPositiveDevice.getLon();
+
+            if(locationForPositiveDevice.getTimestamp().after(referenceTimestamp)) {
+                cal.setTime(locationForPositiveDevice.getTimestamp());
+                cal.add(Calendar.MINUTE, -searchBetweenTime);
+                Timestamp referenceTimestampBefore = new Timestamp(cal.getTime().getTime());
+                cal.add(Calendar.MINUTE, 2 * searchBetweenTime);
+                Timestamp referenceTimestampAfter = new Timestamp(cal.getTime().getTime());
+
+                List<Location> locationsToCheck = locationRepository.findAllByTestResultPositiveAndTimestampBetweenAnd(referenceTimestampBefore, referenceTimestampAfter, locationForPositiveDevice.getDevice().getId());
+                log.info("found " + locationsToCheck.size() + " devices to check");
+
+                for (Location location : locationsToCheck) {
+                    if(!devicesToWarn.contains(location.getDevice()) && DistanceHelper.isDistanceSmallerThanReference(latFrom, location.getLat(), lonFrom, location.getLon(), maxMeters))  {
+                        log.info("device " + location.getDevice().getId() + " added. Location: " + location.getId());
+                        devicesToWarn.add(location.getDevice());
+                    }
                 }
             }
         }
+
+        log.info("found " + devicesToWarn.size() + " devices near to positive device");
     }
 }

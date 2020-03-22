@@ -25,6 +25,9 @@ public class WSTestController {
     @Autowired
     private TestStateService testStateService;
 
+    @Autowired
+    LocationService locationService;
+
     private static final String X_ATT_DEVICE_HEADER = "X-ATT-DeviceId";
 
     @RequestMapping(path = "/create",
@@ -64,6 +67,9 @@ public class WSTestController {
         }
 
         testStateService.updateTest(request, device);
+        if(request.getResult() == TestState.State.IS_POSITIVE) {
+            locationService.findNearlyLocations(device);
+        }
         return new ResponseEntity<>(true, HttpStatus.CREATED);
     }
 
