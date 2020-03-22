@@ -102,9 +102,10 @@ public class LocationService {
                 DEFAULT_VALUE_MAX_DISTANCE);
         int maxMeters = Integer.parseInt(maxMetersConfig);
 
-        String title = environment.getProperty("push.message.test.title", "Positiver Covid-19 Test in der Nähe");
-        String message = environment.getProperty("push.message.test.message",
-                "In Ihrer Nähe gab es einen positiv getesteten Covid-19 Fall, lassen Sie sich testen.");
+        String title = "Positiver Covid-19 Test in der Nähe";
+        //String title = environment.getProperty("push.message.test.title", "Positiver Covid-19 Test in der Nähe");
+        String message ="In Ihrer Nähe gab es einen positiv getesteten Covid-19 Fall, lassen Sie sich testen.";
+        //String message = environment.getProperty("push.message.test.message",  "In Ihrer Nähe gab es einen positiv getesteten Covid-19 Fall, lassen Sie sich testen.");
 
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DAY_OF_WEEK, -maxDays);
