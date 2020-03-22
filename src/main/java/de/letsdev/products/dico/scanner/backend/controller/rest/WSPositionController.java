@@ -1,5 +1,6 @@
 package de.letsdev.products.dico.scanner.backend.controller.rest;
 
+import de.letsdev.products.dico.scanner.backend.service.TestStateService;
 import de.letsdev.products.dico.scanner.backend.ws.dto.Position;
 import de.letsdev.products.dico.scanner.backend.db.Device;
 import de.letsdev.products.dico.scanner.backend.db.Location;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/position")
@@ -30,6 +31,9 @@ public class WSPositionController {
 
     @Autowired
     private DeviceService deviceService;
+
+    @Autowired
+    private TestStateService testStateService;
 
     private Logger log = LoggerFactory.getLogger(WSPositionController.class);
 
@@ -59,10 +63,26 @@ public class WSPositionController {
     @ResponseBody
     public List<Position> showLocation(@PathVariable("deviceId") String deviceId) {
         if (deviceId.equals("all")) {
-            return locationService.findAll();
+            Set<String> positiveDevices = testStateService.findAllDevicesWithPositiveTests();
+            List<Position> positions = locationService.findAll();
+
+            for (Position position : positions) {
+                if (positiveDevices.contains(position.getDevice().getUuid())) {
+                    position.setHasPositiveResult(true);
+                }
+            }
+
+            return positions;
         }
 
-        return locationService.findAllByDeviceUuid(deviceId);
+        List<Position> positions = locationService.findAllByDeviceUuid(deviceId);
+        boolean positive = testStateService.hasPositiveTest(deviceId);
+
+        for (Position position : positions) {
+            position.setHasPositiveResult(positive);
+        }
+
+        return positions;
     }
 
 }

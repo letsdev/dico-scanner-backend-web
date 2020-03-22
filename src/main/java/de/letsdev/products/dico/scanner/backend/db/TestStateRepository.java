@@ -10,4 +10,6 @@ public interface TestStateRepository extends JpaRepository<TestState, Long> {
     List<TestState> findAllByDeviceUuid(String uuid);
 
     List<TestState> findAllByStateAndTimestampBefore(TestState.State state, Timestamp timestamp);
+
+    List<TestState> findAllByState(TestState.State state);
 }

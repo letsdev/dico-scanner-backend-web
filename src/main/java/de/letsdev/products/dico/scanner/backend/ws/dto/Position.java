@@ -1,5 +1,7 @@
 package de.letsdev.products.dico.scanner.backend.ws.dto;
 
+import de.letsdev.products.dico.scanner.backend.db.Device;
+
 public class Position {
 
     float lon;
@@ -9,6 +11,10 @@ public class Position {
     float accuracy;
 
     String timestamp;
+
+    boolean HasPositiveResult;
+
+    Device device;
 
     public float getLon() {
         return lon;
@@ -40,5 +46,21 @@ public class Position {
 
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public boolean isHasPositiveResult() {
+        return HasPositiveResult;
+    }
+
+    public void setHasPositiveResult(boolean hasPositiveResult) {
+        HasPositiveResult = hasPositiveResult;
+    }
+
+    public Device getDevice() {
+        return device;
+    }
+
+    public void setDevice(Device device) {
+        this.device = device;
     }
 }

@@ -10,9 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class TestStateService {
@@ -73,5 +71,29 @@ public class TestStateService {
         }
 
         return devices;
+    }
+
+    public Set<String> findAllDevicesWithPositiveTests() {
+
+        List<TestState> testStates = testStateRepository.findAllByState(TestState.State.IS_POSITIVE);
+        HashSet<String> deviceSet = new HashSet<>();
+
+        for (TestState testState : testStates) {
+            deviceSet.add(testState.getDevice().getUuid());
+        }
+
+        return deviceSet;
+    }
+
+    public boolean hasPositiveTest(String deviceId) {
+
+        List<TestState> testStates = testStateRepository.findAllByDeviceUuid(deviceId);
+        for (TestState testState : testStates) {
+            if (testState.getState() == TestState.State.IS_POSITIVE) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
