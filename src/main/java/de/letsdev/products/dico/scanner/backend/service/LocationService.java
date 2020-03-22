@@ -1,5 +1,6 @@
 package de.letsdev.products.dico.scanner.backend.service;
 
+import de.letsdev.products.dico.scanner.backend.db.DeviceRepository;
 import de.letsdev.products.dico.scanner.backend.ws.dto.Position;
 import de.letsdev.products.dico.scanner.backend.db.Device;
 import de.letsdev.products.dico.scanner.backend.db.Location;
@@ -30,6 +31,9 @@ public class LocationService {
 
     @Autowired
     private PushService pushService;
+
+    @Autowired
+    private DeviceRepository deviceRepository;
 
     @Autowired
     private Environment environment;
@@ -82,8 +86,10 @@ public class LocationService {
     }
 
     @Async
-    @Transactional
-    public void findNearlyLocations(Device device) {
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    public void findNearlyLocations(long deviceId) {
+
+        Device device = this.deviceRepository.findById(deviceId);
 
         log.info("check nearly locations for device " + device.getId());
         List<Long> deviceIdsToWarn = new ArrayList<>();

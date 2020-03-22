@@ -50,7 +50,7 @@ public class WSTestController {
     }
 
     @PostMapping("/sendResult")
-    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    @Transactional
     public ResponseEntity<Object> updateTest(@RequestHeader(X_ATT_DEVICE_HEADER) String deviceIdHeader, @RequestBody Test request) {
         Device device = deviceService.findByDeviceUuid(deviceIdHeader);
         if (device == null) {
@@ -68,7 +68,7 @@ public class WSTestController {
 
         testStateService.updateTest(request, device);
         if(request.getResult() == TestState.State.IS_POSITIVE) {
-            locationService.findNearlyLocations(device);
+            locationService.findNearlyLocations(device.getId());
         }
         return new ResponseEntity<>(true, HttpStatus.CREATED);
     }
