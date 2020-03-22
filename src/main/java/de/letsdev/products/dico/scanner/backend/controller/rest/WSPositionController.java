@@ -1,6 +1,6 @@
 package de.letsdev.products.dico.scanner.backend.controller.rest;
 
-import de.letsdev.products.dico.scanner.backend.Position;
+import de.letsdev.products.dico.scanner.backend.ws.dto.Position;
 import de.letsdev.products.dico.scanner.backend.db.Device;
 import de.letsdev.products.dico.scanner.backend.db.Location;
 import de.letsdev.products.dico.scanner.backend.service.DeviceService;

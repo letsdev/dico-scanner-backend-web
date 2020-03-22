@@ -1,14 +1,10 @@
 package de.letsdev.products.dico.scanner.backend.controller.rest;
 
-import de.letsdev.products.dico.scanner.backend.Test;
+import de.letsdev.products.dico.scanner.backend.ws.dto.Test;
 import de.letsdev.products.dico.scanner.backend.db.Device;
 import de.letsdev.products.dico.scanner.backend.db.TestState;
-import de.letsdev.products.dico.scanner.backend.push.PushService;
 import de.letsdev.products.dico.scanner.backend.service.DeviceService;
-import de.letsdev.products.dico.scanner.backend.service.LocationService;
 import de.letsdev.products.dico.scanner.backend.service.TestStateService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

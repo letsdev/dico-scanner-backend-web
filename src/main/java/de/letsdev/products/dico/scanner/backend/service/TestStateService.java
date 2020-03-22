@@ -1,6 +1,6 @@
 package de.letsdev.products.dico.scanner.backend.service;
 
-import de.letsdev.products.dico.scanner.backend.Test;
+import de.letsdev.products.dico.scanner.backend.ws.dto.Test;
 import de.letsdev.products.dico.scanner.backend.db.Device;
 import de.letsdev.products.dico.scanner.backend.db.TestState;
 import de.letsdev.products.dico.scanner.backend.db.TestStateRepository;
