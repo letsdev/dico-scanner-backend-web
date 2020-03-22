@@ -103,6 +103,10 @@ public class LocationService {
         Timestamp referenceTimestamp = new Timestamp(cal.getTime().getTime());
 
         Set<Location> locationsForPositiveDevice = device.getLocations();
+        if(locationsForPositiveDevice == null) {
+            log.info("device does not have assigned locations");
+            return;
+        }
 
         for (Location locationForPositiveDevice : locationsForPositiveDevice) {
 
