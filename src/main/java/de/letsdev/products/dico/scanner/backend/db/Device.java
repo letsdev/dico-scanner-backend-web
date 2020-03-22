@@ -20,11 +20,11 @@ public class Device {
     private String uuid;
 
     @OneToMany
-    @JoinColumn(name = "location_id")
+    @JoinColumn(name = "device_id")
     private Set<Location> locations;
 
     @OneToMany
-    @JoinColumn(name = "test_state_id")
+    @JoinColumn(name = "device_id")
     private Set<TestState> testStates;
 
     public void setId(long id) {
@@ -55,5 +55,15 @@ public class Device {
     public Set<Location> getLocations() {
 
         return locations;
+    }
+
+    public Set<TestState> getTestStates() {
+
+        return testStates;
+    }
+
+    public void setTestStates(Set<TestState> testStates) {
+
+        this.testStates = testStates;
     }
 }

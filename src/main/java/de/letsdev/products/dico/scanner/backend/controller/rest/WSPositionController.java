@@ -49,7 +49,6 @@ public class WSPositionController {
 
         if (location != null) {
             log.info("location successfully saved for device: " + device.getId());
-            locationService.findNearlyLocations(location);
             return new ResponseEntity<>(true, HttpStatus.CREATED);
         }
 

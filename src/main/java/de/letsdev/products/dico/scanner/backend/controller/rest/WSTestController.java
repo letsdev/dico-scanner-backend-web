@@ -1,5 +1,6 @@
 package de.letsdev.products.dico.scanner.backend.controller.rest;
 
+import de.letsdev.products.dico.scanner.backend.service.LocationService;
 import de.letsdev.products.dico.scanner.backend.ws.dto.Test;
 import de.letsdev.products.dico.scanner.backend.db.Device;
 import de.letsdev.products.dico.scanner.backend.db.TestState;
@@ -21,6 +22,9 @@ public class WSTestController {
 
     @Autowired
     private TestStateService testStateService;
+
+    @Autowired
+    LocationService locationService;
 
     private static final String X_ATT_DEVICE_HEADER = "X-ATT-DeviceId";
 
@@ -61,6 +65,9 @@ public class WSTestController {
         }
 
         testStateService.updateTest(request, device);
+        if(request.getResult() == TestState.State.IS_POSITIVE) {
+            locationService.findNearlyLocations(device);
+        }
         return new ResponseEntity<>(true, HttpStatus.CREATED);
     }
 
