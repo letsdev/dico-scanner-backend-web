@@ -8,6 +8,8 @@ import de.letsdev.products.dico.scanner.backend.helper.TimestampConverter;
 import de.letsdev.products.dico.scanner.backend.service.DeviceService;
 import de.letsdev.products.dico.scanner.backend.ws.dto.SymptomDiary;
 import de.letsdev.products.dico.scanner.backend.ws.dto.SymptomDiaryResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,11 +31,15 @@ public class WSSymptomDiaryController {
     @Autowired
     private SymptomDiaryRepository symptomDiaryRepository;
 
+    private Logger log = LoggerFactory.getLogger(WSSymptomDiaryController.class);
+
     @RequestMapping(
             method = RequestMethod.POST,
             produces = "application/json"
     )
     public ResponseEntity<SymptomDiaryResponse> persistSymptomDiary(@RequestHeader(WSHelper.X_ATT_DEVICE_HEADER) String deviceIdHeader, @RequestBody SymptomDiary symptomDiary) {
+
+        log.info("persistSymptomDiary called for device " + deviceIdHeader);
         Device device = deviceService.findByDeviceUuid(deviceIdHeader);
         if(device == null) {
             device = deviceService.createDevice(deviceIdHeader);
@@ -54,22 +60,28 @@ public class WSSymptomDiaryController {
             symptomIds.add(tmpDbSymptom.getId());
         }
 
+        log.info("found " + symptomIds.size() + " symptoms");
+
         boolean hasFever = false;
         if(symptomIds.contains(3) || symptomIds.contains(4) || symptomIds.contains(5) || symptomIds.contains(6) || symptomIds.contains(7)){
+            log.info("user has fever");
             hasFever = true;
         }
 
         boolean infected = hasFever;
         if(infected && symptomIds.contains(2) && symptomIds.contains(12)){
+            log.info("user is infected");
             infected = true;
         }
         else {
+            log.info("user is not infected");
             infected = false;
         }
 
         result.setMaybeInfected(infected);
 
         if(result.isMaybeInfected()){
+            log.info("send recommendation for test");
             result.setMessage("Möglicherweise sind Sie aufgrund Ihrer Symptome an Corona erkrankt. Bitte lassen Sie sich testen!");
         }
         else {
