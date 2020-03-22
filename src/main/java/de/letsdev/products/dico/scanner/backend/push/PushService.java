@@ -33,7 +33,7 @@ public class PushService {
         RestTemplate restTemplate = new RestTemplate();
 
         PushRequestDto pushRequestDto = new PushRequestDto();
-        pushRequestDto.setDeviceQuery("[deviceId=" + deviceId + "]");
+        pushRequestDto.setDeviceQuery("deviceId = [" + deviceId + "]");
         pushRequestDto.setTitle(title);
         pushRequestDto.setMessage(message);
         pushRequestDto.setId(UUID.randomUUID().toString());
