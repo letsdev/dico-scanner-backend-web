@@ -1,4 +1,4 @@
-package de.letsdev.products.dico.scanner.backend;
+package de.letsdev.products.dico.scanner.backend.ws.dto;
 
 public class Position {
 

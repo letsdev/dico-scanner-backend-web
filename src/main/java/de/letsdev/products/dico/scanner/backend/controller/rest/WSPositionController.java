@@ -1,21 +1,23 @@
-package de.letsdev.products.dico.scanner.backend;
+package de.letsdev.products.dico.scanner.backend.controller.rest;
 
+import de.letsdev.products.dico.scanner.backend.ws.dto.Position;
 import de.letsdev.products.dico.scanner.backend.db.Device;
 import de.letsdev.products.dico.scanner.backend.db.Location;
-import de.letsdev.products.dico.scanner.backend.push.PushService;
-import de.letsdev.products.dico.scanner.backend.db.TestState;
-import de.letsdev.products.dico.scanner.backend.helper.TestStateConverter;
 import de.letsdev.products.dico.scanner.backend.service.DeviceService;
 import de.letsdev.products.dico.scanner.backend.service.LocationService;
-import de.letsdev.products.dico.scanner.backend.service.TestStateService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -29,14 +31,14 @@ public class WSPositionController {
     @Autowired
     private DeviceService deviceService;
 
-    private static final String X_ATT_DEVICE_HEADER = "X-ATT-DeviceId";
     private Logger log = LoggerFactory.getLogger(WSPositionController.class);
 
     @RequestMapping(
             method = RequestMethod.POST,
             produces = "application/json"
     )
-    public ResponseEntity<Object> position(@RequestHeader(WSHelper.X_ATT_DEVICE_HEADER) String deviceIdHeader, @RequestBody Position position) {
+    public ResponseEntity<Object> position(@RequestHeader(WSHelper.X_ATT_DEVICE_HEADER) String deviceIdHeader, @RequestBody
+            Position position) {
         Device device = deviceService.findByDeviceUuid(deviceIdHeader);
         if (device == null) {
             device = deviceService.createDevice(deviceIdHeader);

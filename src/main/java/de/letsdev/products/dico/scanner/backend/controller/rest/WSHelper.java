@@ -1,4 +1,4 @@
-package de.letsdev.products.dico.scanner.backend;
+package de.letsdev.products.dico.scanner.backend.controller.rest;
 
 public class WSHelper {
 

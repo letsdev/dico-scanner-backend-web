@@ -1,4 +1,4 @@
-package de.letsdev.products.dico.scanner.backend;
+package de.letsdev.products.dico.scanner.backend.controller.rest;
 
 import de.letsdev.products.dico.scanner.backend.db.SymptomRepository;
 import de.letsdev.products.dico.scanner.backend.ws.dto.Symptom;
