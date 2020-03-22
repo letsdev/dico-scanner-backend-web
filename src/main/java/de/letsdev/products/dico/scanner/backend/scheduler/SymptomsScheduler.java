@@ -29,13 +29,16 @@ public class SymptomsScheduler {
 
     Logger log = LoggerFactory.getLogger(SymptomsScheduler.class);
 
-    @Scheduled(cron = "0 0 17 * * *", zone="Europe/Berlin")
+    @Scheduled(cron = "0 23 17 * * *", zone="Europe/Berlin")
     public void symptomsReminder() {
         log.info("daily reminder scheduler started");
         List<Device> devices = deviceService.getAllDevices();
 
-        String title = environment.getProperty("push.message.reminder.title", "Tägliche Erinnerung");
-        String message = environment.getProperty("push.message.reminder.message", "Bitte die Symptome für heute eingeben.");
+        //String title = environment.getProperty("push.message.reminder.title", "Tägliche Erinnerung");
+        //String message = environment.getProperty("push.message.reminder.message", "Bitte die Symptome für heute eingeben.");
+
+        String title = "Tägliche Erinnerung";
+        String message = "Bitte die Symptome für heute eingeben.";
 
         for(Device device : devices) {
             try {
