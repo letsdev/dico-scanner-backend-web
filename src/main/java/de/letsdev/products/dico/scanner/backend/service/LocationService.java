@@ -84,7 +84,7 @@ public class LocationService {
     public void findNearlyLocations(Device device) {
 
         log.info("check nearly locations for device " + device.getId());
-        List<Device> devicesToWarn = new ArrayList<>();
+        List<Long> deviceIdsToWarn = new ArrayList<>();
         String maxDaysConfig = environment.getProperty("coscan.search.maximum.days", DEFAULT_VALUE_MAX_DAYS);
         int maxDays = Integer.parseInt(maxDaysConfig);
         String searchBetweenTimeConfig = environment.getProperty("coscan.search.between.minutes",
@@ -122,13 +122,13 @@ public class LocationService {
 
                 List<Location> locationsToCheck = locationRepository.findAllByTestResultPositiveAndTimestampBetweenAnd(
                         referenceTimestampBefore, referenceTimestampAfter, locationForPositiveDevice.getDevice().getId());
-                log.info("found " + locationsToCheck.size() + " devices to check");
+                log.info("found " + locationsToCheck.size() + " locations to check");
 
                 for (Location location : locationsToCheck) {
-                    if (!devicesToWarn.contains(location.getDevice()) && DistanceHelper.isDistanceSmallerThanReference(
+                    if (!deviceIdsToWarn.contains(location.getDevice().getId()) && DistanceHelper.isDistanceSmallerThanReference(
                             latFrom, location.getLat(), lonFrom, location.getLon(), maxMeters)) {
                         log.info("device " + location.getDevice().getId() + " added. Location: " + location.getId());
-                        devicesToWarn.add(location.getDevice());
+                        deviceIdsToWarn.add(location.getDevice().getId());
 
                         message = message.replace(PLACEHOLDER_TEXT, location.getTimestamp().toString());
                         try {
@@ -142,6 +142,6 @@ public class LocationService {
             }
         }
 
-        log.info("found " + devicesToWarn.size() + " devices near to positive device");
+        log.info("found " + deviceIdsToWarn.size() + " devices near to positive device");
     }
 }
